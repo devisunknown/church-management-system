@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 import uuid
+from cloudinary.models import CloudinaryField
 
 class _EmptyRelatedManager:
     def all(self):
@@ -22,7 +23,7 @@ class members(models.Model):
     scd_group=models.CharField(max_length=100)
     datejoined=models.DateTimeField(null=True)
     dateofbirth=models.DateTimeField(null=True)
-    image=models.ImageField(null=True)
+    image = CloudinaryField('image', null=True, blank=True)
     notes = models.TextField(default='', blank=True)
 
     @property
