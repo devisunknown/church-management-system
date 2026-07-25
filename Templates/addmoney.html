@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Record Giving - Sanctuary Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#87beb8",
+                        "surface-container-low": "#eef4ff",
+                        "on-secondary-fixed": "#1b1c19",
+                        "on-tertiary-fixed": "#2f1500",
+                        "on-primary-fixed-variant": "#144f4b",
+                        "primary-fixed": "#b5ede7",
+                        "tertiary-fixed": "#ffdcc3",
+                        "surface-container": "#e5eeff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-dim": "#d1dbec",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "primary-fixed-dim": "#9ad1cb",
+                        "on-background": "#121c28",
+                        "inverse-primary": "#9ad1cb",
+                        "on-surface": "#121c28",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary": "#003633",
+                        "on-secondary-container": "#646561",
+                        "surface": "#f8f9ff",
+                        "outline-variant": "#bfc8c6",
+                        "tertiary-container": "#6d3800",
+                        "tertiary": "#4c2600",
+                        "secondary-container": "#e3e3de",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "on-surface-variant": "#404847",
+                        "background": "#f8f9ff",
+                        "surface-container-highest": "#d9e3f4",
+                        "outline": "#707977",
+                        "on-primary-fixed": "#00201e",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#316763",
+                        "primary-container": "#134e4a",
+                        "inverse-surface": "#27313e",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#c7c7c2",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#dfe9fa",
+                        "secondary": "#5e5f5b",
+                        "secondary-fixed": "#e3e3de",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#ff9c42",
+                        "surface-variant": "#d9e3f4",
+                        "on-secondary-fixed-variant": "#464744"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "container-padding": "32px",
+                        "sidebar-width": "260px",
+                        "card-gap": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Geist"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Geist"],
+                        "headline-xl": ["Geist"],
+                        "body-md": ["Inter"],
+                        "mono-sm": ["Geist"],
+                        "headline-lg-mobile": ["Geist"],
+                        "headline-lg": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "mono-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #FDFCF7; /* Level 0 Background per Style Guidance */
+            color: #121C28;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .soft-shadow {
+            box-shadow: 0px 4px 20px rgba(19, 78, 74, 0.04);
+        }
+        .warm-glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(0, 54, 51, 0.08);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased">
+<!-- Top Navigation Shell (Suppressed context check: This is a task-focused sub-page, but user requested TopAppBar for consistency. Per prompt, we include it but with 'Back' action logic) -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/50 backdrop-blur-md shadow-sm h-16 flex justify-between items-center px-4">
+<div class="flex items-center gap-3">
+<a class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-primary/5 transition-colors active:scale-95 duration-100" href="{% url 'money' %}">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</a>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">Record Giving</h1>
+</div>
+<div class="flex items-center">
+<a class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-primary/5 transition-colors active:scale-95 duration-100" href="{% url 'money' %}">
+<span class="material-symbols-outlined text-on-surface-variant">close</span>
+</a>
+</div>
+</header>
+<main class="pt-20 pb-32 px-4 max-w-lg mx-auto">
+<form class="space-y-6" id="giving-form" method="post" action="{% url 'addmoney' %}">
+{% csrf_token %}
+<!-- Amount Section (Bento-style card) -->
+<div class="bg-surface-container-lowest soft-shadow rounded-xl p-6 border border-outline-variant/10">
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">AMOUNT</label>
+<div class="relative flex items-center">
+<span class="absolute left-0 text-headline-xl font-headline-xl text-primary/30">$</span>
+<input class="w-full bg-transparent border-none p-0 pl-8 text-headline-xl font-headline-xl text-primary placeholder:text-primary/10 focus:ring-0" name="amount" placeholder="0.00" required step="0.01" type="number"/>
+</div>
+</div>
+<!-- Transaction Details -->
+<div class="bg-surface-container-lowest soft-shadow rounded-xl p-6 space-y-5 border border-outline-variant/10">
+<!-- Donor Search -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">DONOR</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-on-surface placeholder:text-outline focus:border-primary transition-all" name="donor_name" placeholder="Search member or guest..." type="text"/>
+</div>
+</div>
+<!-- Fund Selection -->
+<div class="grid grid-cols-1 gap-4">
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">FUND</label>
+<select class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-on-surface appearance-none focus:border-primary transition-all" name="fund">
+<option value="offetory">offring</option>
+<option value="tithe">tithe</option>
+<option value="support">support</option>
+<option value="outreach">outreach</option>
+</select>
+</div>
+</div>
+<!-- Date & Method Grid -->
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">DATE</label>
+<input class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-on-surface focus:border-primary transition-all" name="gift_date" type="date" value="{{ today|date:'Y-m-d' }}"/>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">PAYMENT METHOD</label>
+<select class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-on-surface appearance-none focus:border-primary transition-all" name="payment_method">
+<option value="cash">Cash</option>
+<option value="check">Check</option>
+<option value="ach">ACH</option>
+<option value="card">Card</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Additional Options -->
+<div class="bg-surface-container-lowest soft-shadow rounded-xl p-6 border border-outline-variant/10 space-y-6">
+<!-- Tax Deductible Toggle -->
+<div class="flex items-center justify-between">
+<div>
+<p class="font-body-md font-semibold text-on-surface">Tax Deductible</p>
+<p class="text-label-md text-on-surface-variant">Include in year-end statements</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" name="tax_deductible" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Notes Section -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2">NOTES</label>
+<textarea class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-on-surface placeholder:text-outline focus:border-primary transition-all resize-none" name="notes" placeholder="Add any specific details about this gift..." rows="3"></textarea>
+</div>
+</div>
+<!-- Image Asset Contextual (Visual break) -->
+<div class="rounded-xl overflow-hidden h-32 relative">
+<div class="w-full h-full bg-cover bg-center" data-alt="A serene, minimalist digital illustration of a sunlit church interior with warm golden hour light streaming through tall windows. The aesthetic is clean, modern, and warm with deep teal accents and soft cream-colored stone walls, evoking a sense of peaceful stewardship and community." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBa_v2tblD_dlPmNlPh60L-oPlK5WWxTbi0R96H5GpqUHvvKTlqdSSFXfgcscE2nvtHCcPBQh5LxDqZcuovVEDkBXhk6ZGhk7_grB0KSeLUEYXfA8yX_7MHJATE2yuQQ-5ORlYaBUKs4KpkJv6cZHCOVoPVK-XIUXNpjPXn9vhA5gdUnW_6kKtvO_MbGZK8EaHcB2AfZm41YUXekv7kRR3jp6B5LD8RXjFqJy8Ja3-vREnqKdxOpZx7903Sifmogc0o2RA9Q-rJE54')"></div>
+<div class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+<p class="text-white font-headline-md opacity-80 italic">"God loves a cheerful giver."</p>
+</div>
+</div>
+</form>
+</main>
+<!-- Bottom Action Bar (Fixed) -->
+<div class="fixed bottom-0 left-0 w-full bg-surface-container-lowest p-4 px-container-padding pb-8 flex flex-col gap-3 shadow-[0_-10px_32px_rgba(0,0,0,0.05)] border-t border-outline-variant/20 z-50">
+<button class="w-full bg-primary text-white py-4 rounded-xl font-headline-md font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform" form="giving-form" type="submit">
+<span class="material-symbols-outlined">payments</span>
+            Submit Recording
+        </button>
+<p class="text-center text-label-md text-on-surface-variant">Recipient: Building Expansion Fund</p>
+</div>
+<!-- Hidden Navigation (Requirement from JSON for consistency check) -->
+<!-- On mobile, BottomNavBar is usually visible, but since this is a focused task, we use the Action Bar. 
+         We render the structure here but suppressed by the task flow priority -->
+<nav class="hidden md:flex fixed left-0 top-0 w-sidebar-width h-screen p-6 flex-col gap-y-4 bg-surface-container-lowest border-r border-outline-variant/10 shadow-sm">
+<div class="mb-8">
+<h2 class="text-headline-md font-headline-md font-extrabold text-primary">Sanctuary</h2>
+<p class="text-label-md text-on-surface-variant">Grace Community Church</p>
+</div>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-secondary-fixed/30 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-md font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary font-bold border-r-4 border-primary bg-primary/5 rounded-l-lg transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-label-md font-label-md">Giving</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-secondary-fixed/30 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-label-md font-label-md">Members</span>
+</a>
+</div>
+<div class="mt-auto p-4 bg-surface rounded-xl flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold">SA</div>
+<div>
+<p class="text-body-md font-bold text-primary">Steward Admin</p>
+<p class="text-label-md text-outline">Admin Role</p>
+</div>
+</div>
+</nav>
+<script>
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('focus', () => {
+                element.closest('.bg-surface-container-lowest')?.classList.add('ring-1', 'ring-primary/20');
+            });
+            element.addEventListener('blur', () => {
+                element.closest('.bg-surface-container-lowest')?.classList.remove('ring-1', 'ring-primary/20');
+            });
+        });
+    </script>
+</body></html>

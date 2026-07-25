@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Event | Sanctuary Admin</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#ffb77d",
+                    "secondary": "#5e5f5b",
+                    "outline-variant": "#bfc8c6",
+                    "on-secondary-fixed-variant": "#464744",
+                    "on-primary-fixed-variant": "#144f4b",
+                    "on-surface": "#121c28",
+                    "inverse-primary": "#9ad1cb",
+                    "tertiary": "#4c2600",
+                    "surface-tint": "#316763",
+                    "surface-container-low": "#eef4ff",
+                    "surface-container-high": "#dfe9fa",
+                    "outline": "#707977",
+                    "tertiary-container": "#6d3800",
+                    "on-secondary-fixed": "#1b1c19",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#e5eeff",
+                    "primary-container": "#134e4a",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#d9e3f4",
+                    "inverse-surface": "#27313e",
+                    "on-tertiary-container": "#ff9c42",
+                    "secondary-container": "#e3e3de",
+                    "inverse-on-surface": "#eaf1ff",
+                    "secondary-fixed-dim": "#c7c7c2",
+                    "primary": "#003633",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffdcc3",
+                    "surface-container-highest": "#d9e3f4",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#e3e3de",
+                    "on-primary-fixed": "#00201e",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "surface": "#f8f9ff",
+                    "on-secondary-container": "#646561",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#121c28",
+                    "background": "#f8f9ff",
+                    "surface-dim": "#d1dbec",
+                    "on-primary-container": "#87beb8",
+                    "primary-fixed-dim": "#9ad1cb",
+                    "primary-fixed": "#b5ede7",
+                    "on-error-container": "#93000a",
+                    "surface-bright": "#f8f9ff",
+                    "on-secondary": "#ffffff",
+                    "on-surface-variant": "#404847",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#2f1500"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-padding": "32px",
+                    "unit": "4px",
+                    "sidebar-width": "260px",
+                    "card-gap": "20px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Geist"],
+                    "headline-lg-mobile": ["Geist"],
+                    "body-lg": ["Inter"],
+                    "mono-sm": ["Geist"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Geist"],
+                    "headline-xl": ["Geist"],
+                    "headline-lg": ["Geist"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "mono-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #FDFCF7; /* Level 0 Background */
+            font-family: 'Inter', sans-serif;
+            color: #121c28;
+        }
+        .card-shadow {
+            box-shadow: 0px 4px 20px rgba(19, 78, 74, 0.04);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 54, 51, 0.1);
+            border-radius: 10px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #003633;
+        }
+        .toggle-checkbox:checked + .toggle-label .toggle-dot {
+            transform: translateX(100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col md:flex-row">
+<!-- Desktop Sidebar (NavigationDrawer) -->
+{% include 'partials/sidebar.html' %}
+<!-- Main Content Area -->
+<main class="flex-grow md:ml-sidebar-width bg-background min-h-screen pb-24 md:pb-12">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-container-padding py-unit h-16 bg-surface/50 backdrop-blur-md shadow-sm sticky top-0 z-40">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 text-on-surface-variant hover:bg-primary/5 rounded-full transition-colors" type="button">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="text-headline-md font-headline-md font-bold text-primary">Create Event</h2>
+</div>
+</header>
+<!-- Form Container -->
+<form action="{% url 'addevent' %}" method="POST">
+{% csrf_token %}
+<div class="max-w-5xl mx-auto px-container-padding py-10">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-card-gap">
+<!-- Left Column: Primary Details -->
+<div class="lg:col-span-2 space-y-card-gap">
+<!-- Event Basics Card -->
+<section class="bg-surface-container-lowest p-gutter rounded-xl card-shadow border border-primary/5">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary-container">description</span>
+<h3 class="text-headline-md font-headline-md text-primary">Event Details</h3>
+</div>
+<div class="space-y-6">
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2" for="title">Event Title</label>
+<input class="w-full bg-white border border-outline-variant rounded-lg p-3 text-body-md focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all" id="title" name="title" placeholder="e.g. Annual Community Harvest Festival" required="" type="text"/>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2" for="description">Description</label>
+<textarea class="w-full bg-white border border-outline-variant rounded-lg p-3 text-body-md focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all resize-none" id="description" name="description" placeholder="Describe the purpose, vision, and key activities of this event..." rows="4"></textarea>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2" for="event_date">Date</label>
+<div class="relative">
+<input class="w-full bg-white border border-outline-variant rounded-lg p-3 text-body-md focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all" id="event_date" name="event_date" required="" type="date"/>
+</div>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2" for="start_time">Start Time</label>
+<input class="w-full bg-white border border-outline-variant rounded-lg p-3 text-body-md focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all" id="start_time" name="start_time" required="" type="time"/>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2" for="end_time">End Time</label>
+<input class="w-full bg-white border border-outline-variant rounded-lg p-3 text-body-md focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all" id="end_time" name="end_time" type="time"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Location Card -->
+<section class="bg-surface-container-lowest p-gutter rounded-xl card-shadow border border-primary/5 overflow-hidden">
+<div class="flex items-center gap-3 mb-6 px-1">
+<span class="material-symbols-outlined text-primary-container">location_on</span>
+<h3 class="text-headline-md font-headline-md text-primary">Location</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 px-1">
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2" for="venue">Venue / Room</label>
+<select class="w-full bg-white border border-outline-variant rounded-lg p-3 text-body-md focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all appearance-none" id="venue" name="venue">
+<option value="main_sanctuary">Main Sanctuary</option>
+<option value="community_hall">Community Hall</option>
+<option value="youth_loft">Youth Loft</option>
+<option value="room_302">Room 302</option>
+<option value="outdoor_plaza">Outdoor Plaza</option>
+<option value="offsite">Off-site Address</option>
+</select>
+</div>
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2" for="street_address">Street Address (Optional)</label>
+<input class="w-full bg-white border border-outline-variant rounded-lg p-3 text-body-md focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all" id="street_address" name="street_address" placeholder="123 Grace Way, Suite A" type="text"/>
+</div>
+</div>
+<!-- Mini Map Preview -->
+<div class="w-full h-48 rounded-lg overflow-hidden bg-secondary-container/20 border border-outline-variant relative">
+<div class="absolute inset-0 z-0" data-location="Los Angeles" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDypKfqXkX_hHIm9l-u4-c2wXpHbhBJJ8tFBTPuKvzXj2AzRTt4FepcCGZOByTc2JZErzdOpsOxBjus7E-FLdLhlerjB8Jiq8odFM5Wdd7P6AAE8CcQ9oqEQEaWdQqYiHSgUlfCFqHA9SCKt8m-IlI_gsonlwDvNpP1diYLYzKFLngRLlZ8hl2FJalyhxKVVrii-rD59FFO2M8dMjmFZW8g-vkWLOAziXdiYns90qJz-zzDopB9IuWsg0ANhN6UgAwGtyc7KCN0bfw')"></div>
+<div class="absolute inset-0 bg-primary/5 backdrop-blur-[1px] flex items-center justify-center">
+<div class="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">map</span>
+<span class="text-label-md font-label-md text-primary">Map preview generated based on venue</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Settings & Tags -->
+<div class="space-y-card-gap">
+<!-- Event Settings Card -->
+<section class="bg-surface-container-lowest p-gutter rounded-xl card-shadow border border-primary/5">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary-container">settings</span>
+<h3 class="text-headline-md font-headline-md text-primary">Settings</h3>
+</div>
+<div class="space-y-6">
+<div>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2" for="capacity">Capacity Limit</label>
+<div class="flex items-center gap-3">
+<input class="w-full bg-white border border-outline-variant rounded-lg p-3 text-body-md focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all" id="capacity" min="0" name="capacity" placeholder="250" type="number"/>
+<span class="text-label-md text-on-surface-variant">People</span>
+</div>
+</div>
+<!-- Toggle: Registration -->
+<div class="flex items-center justify-between py-2">
+<div>
+<p class="text-body-md font-medium text-on-surface">Enable Registration</p>
+<p class="text-label-md text-on-surface-variant">Track attendance &amp; signups</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only toggle-checkbox" id="enable_registration" name="enable_registration" type="checkbox"/>
+<div class="w-11 h-6 bg-secondary-container rounded-full transition-colors toggle-label">
+<div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform toggle-dot"></div>
+</div>
+</label>
+</div>
+<!-- Toggle: Public Event -->
+<div class="flex items-center justify-between py-2">
+<div>
+<p class="text-body-md font-medium text-on-surface">Public Event</p>
+<p class="text-label-md text-on-surface-variant">Show on public church calendar</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only toggle-checkbox" id="is_public" name="is_public" type="checkbox"/>
+<div class="w-11 h-6 bg-secondary-container rounded-full transition-colors toggle-label">
+<div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform toggle-dot"></div>
+</div>
+</label>
+</div>
+</div>
+</section>
+<!-- Category & Tags Card -->
+<section class="bg-surface-container-lowest p-gutter rounded-xl card-shadow border border-primary/5">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary-container">sell</span>
+<h3 class="text-headline-md font-headline-md text-primary">Category</h3>
+</div>
+<div class="flex flex-wrap gap-2" id="category-group">
+<button class="category-tag px-4 py-2 rounded-full border border-primary bg-primary/5 text-primary text-label-md font-label-md transition-all hover:bg-primary/10" data-value="worship" type="button">Worship</button>
+<button class="category-tag px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant text-label-md font-label-md transition-all hover:border-primary hover:text-primary" data-value="youth" type="button">Youth</button>
+<button class="category-tag px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant text-label-md font-label-md transition-all hover:border-primary hover:text-primary" data-value="small_group" type="button">Small Group</button>
+<button class="category-tag px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant text-label-md font-label-md transition-all hover:border-primary hover:text-primary" data-value="outreach" type="button">Outreach</button>
+<button class="category-tag px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant text-label-md font-label-md transition-all hover:border-primary hover:text-primary" data-value="fellowship" type="button">Fellowship</button>
+<button class="flex items-center gap-1 px-4 py-2 rounded-full border border-dashed border-outline-variant text-on-surface-variant text-label-md font-label-md transition-all hover:bg-secondary-container/20" id="add-category-btn" type="button">
+<span class="material-symbols-outlined text-sm">add</span> New
+                            </button>
+</div>
+<input id="category" name="category" type="hidden" value="worship"/>
+</section>
+<!-- Helper CTA Card -->
+<section class="bg-tertiary-fixed text-on-tertiary-fixed p-gutter rounded-xl card-shadow border border-tertiary/10 relative overflow-hidden group">
+<div class="relative z-10">
+<h4 class="text-headline-md font-headline-md mb-2">Need volunteers?</h4>
+<p class="text-body-md opacity-80 mb-4">Link this event to a serving team to request greeters, tech support, or childcare.</p>
+<button class="flex items-center gap-2 text-label-md font-bold underline hover:text-tertiary transition-colors" type="button">
+                                Assign Teams <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<span class="material-symbols-outlined absolute -bottom-4 -right-4 text-8xl opacity-10 group-hover:rotate-12 transition-transform">volunteer_activism</span>
+</section>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 text-on-surface-variant font-label-md text-label-md hover:bg-secondary-container/50 rounded-lg transition-colors" type="button">Cancel</button>
+<button class="px-7 py-2 bg-primary text-on-primary font-headline-md text-body-md rounded-lg shadow-sm hover:scale-[1.02] active:scale-95 transition-all" type="submit">Create Event</button>
+</div>
+</div>
+</div>
+</div>
+</form>
+</main>
+
+<!-- Bottom Navigation (Mobile) -->
+{% include 'partials/mobile_nav.html' %}
+<!-- Micro-interaction Scripts -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Category tag toggle logic — writes selection into the hidden #category input
+            const tags = document.querySelectorAll('.category-tag');
+            const categoryInput = document.getElementById('category');
+
+            tags.forEach(tag => {
+                tag.addEventListener('click', () => {
+                    tags.forEach(t => {
+                        t.classList.remove('bg-primary/5', 'text-primary', 'border-primary');
+                        t.classList.add('text-on-surface-variant', 'border-outline-variant');
+                    });
+                    tag.classList.remove('text-on-surface-variant', 'border-outline-variant');
+                    tag.classList.add('bg-primary/5', 'text-primary', 'border-primary');
+                    categoryInput.value = tag.dataset.value;
+                });
+            });
+
+            // "New" category button — prompts for a custom tag and adds it inline
+            document.getElementById('add-category-btn').addEventListener('click', () => {
+                const label = prompt('New category name:');
+                if (!label) return;
+                const value = label.trim().toLowerCase().replace(/\s+/g, '_');
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'category-tag px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant text-label-md font-label-md transition-all hover:border-primary hover:text-primary';
+                btn.dataset.value = value;
+                btn.textContent = label.trim();
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.category-tag').forEach(t => {
+                        t.classList.remove('bg-primary/5', 'text-primary', 'border-primary');
+                        t.classList.add('text-on-surface-variant', 'border-outline-variant');
+                    });
+                    btn.classList.remove('text-on-surface-variant', 'border-outline-variant');
+                    btn.classList.add('bg-primary/5', 'text-primary', 'border-primary');
+                    categoryInput.value = value;
+                });
+
+                document.getElementById('category-group').insertBefore(btn, document.getElementById('add-category-btn'));
+            });
+
+            // Smooth hover lift for cards
+            const cards = document.querySelectorAll('section');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-2px)';
+                    card.style.boxShadow = '0px 10px 32px rgba(19, 78, 74, 0.08)';
+                    card.style.transition = 'all 0.3s ease';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0px)';
+                    card.style.boxShadow = '0px 4px 20px rgba(19, 78, 74, 0.04)';
+                });
+            });
+
+            // Cancel button — goes back instead of doing nothing
+            document.querySelectorAll('button').forEach(btn => {
+                if (btn.textContent.trim() === 'Cancel') {
+                    btn.addEventListener('click', () => history.back());
+                }
+            });
+        });
+    </script>
+</body></html>

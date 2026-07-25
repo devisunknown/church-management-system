@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Attendance Entry | Steward Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        body {
+            background-color: #f8f9ff;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(19, 78, 74, 0.05);
+        }
+        .custom-shadow {
+            box-shadow: 0px 4px 20px rgba(19, 78, 74, 0.04);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-tint": "#316763",
+                        "outline": "#707977",
+                        "surface-container-high": "#dfe9fa",
+                        "secondary": "#5e5f5b",
+                        "tertiary-container": "#6d3800",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "on-surface-variant": "#404847",
+                        "on-primary-fixed": "#00201e",
+                        "on-primary-container": "#87beb8",
+                        "primary-container": "#134e4a",
+                        "surface-bright": "#f8f9ff",
+                        "secondary-fixed": "#e3e3de",
+                        "secondary-container": "#e3e3de",
+                        "outline-variant": "#bfc8c6",
+                        "background": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#4c2600",
+                        "primary": "#003633",
+                        "on-background": "#121c28",
+                        "on-surface": "#121c28"
+                    },
+                    "spacing": {
+                        "container-padding": "32px",
+                        "card-gap": "20px",
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "sidebar-width": "260px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Geist"],
+                        "label-md": ["Geist"],
+                        "body-md": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body { min-height: max(884px, 100dvh); }
+  </style>
+  </head>
+<body class="bg-background text-on-surface">
+<!-- Desktop Navigation Drawer -->
+{% include 'partials/sidebar.html' %}
+<!-- Main Content Area -->
+<main class="md:ml-sidebar-width min-h-screen pb-24 md:pb-8">
+<!-- Top App Bar -->
+<header class="flex justify-between items-center w-full px-6 py-4 h-16 bg-surface/50 backdrop-blur-md sticky top-0 z-30">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 hover:bg-primary/5 rounded-full transition-colors">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">Attendance</h1>
+</div>
+</header>
+<form action="" id="attendance-form" method="post">
+{% csrf_token %}
+<div class="p-4 md:p-8 max-w-6xl mx-auto">
+<!-- Service Context Header -->
+<section class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="flex h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
+<span class="text-label-md font-bold text-red-600 tracking-widest uppercase">Marking Attendance</span>
+</div>
+<h2 class="text-3xl md:text-4xl font-headline-md font-bold text-primary mb-1">{{ event.tittle }}</h2>
+<p class="text-on-surface-variant font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+{{ event.date|date:"F j, Y" }}{% if event.starttime %} • {{ event.starttime|time:"g:i A" }}{% endif %}
+</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-xl font-bold shadow-lg hover:shadow-primary/20 transition-all active:scale-95" type="submit">
+<span class="material-symbols-outlined">save</span>
+Save Attendance
+</button>
+</div>
+</section>
+<!-- Search & Filters -->
+<section class="mb-8 space-y-4">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full pl-12 pr-4 py-4 bg-white border border-outline-variant/30 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-body-lg shadow-sm" id="member-search" placeholder="Search by name, role, or SCD group..." type="text"/>
+</div>
+<div class="space-y-3">
+  <div class="flex flex-wrap gap-2" id="role-filter-bar">
+    <button class="attendance-filter-tag px-4 py-2 rounded-full border border-primary bg-primary text-white text-label-md font-label-md" type="button" data-role="all">All Roles</button>
+    {% for role in role_filters %}
+    <button class="attendance-filter-tag px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant bg-white text-label-md font-label-md hover:border-primary hover:text-primary transition-all" type="button" data-role="{{ role|lower }}">{{ role|title }}</button>
+    {% endfor %}
+  </div>
+  <div class="flex flex-wrap gap-2" id="group-filter-bar">
+    <button class="attendance-group-tag px-4 py-2 rounded-full border border-primary bg-primary text-white text-label-md font-label-md" type="button" data-group="all">All Groups</button>
+    <button class="attendance-group-tag px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant bg-white text-label-md font-label-md hover:border-primary hover:text-primary transition-all" type="button" data-group="unassigned">Unassigned</button>
+    {% for group in scd_group_filters %}
+    <button class="attendance-group-tag px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant bg-white text-label-md font-label-md hover:border-primary hover:text-primary transition-all" type="button" data-group="{{ group|lower }}">{{ group }}</button>
+    {% endfor %}
+  </div>
+</div>
+</section>
+<!-- SCD Group Sections -->
+{% for group in grouped_members %}
+<section class="mb-10" data-scd-group-section>
+  <div class="flex items-center justify-between mb-4 sticky top-16 bg-background/95 backdrop-blur-sm py-2 z-20">
+    <h3 class="text-headline-md font-headline-md font-bold text-primary flex items-center gap-2">
+      <span class="material-symbols-outlined fill-icon text-[22px]">diversity_3</span>
+      SCD GROUP {{ group.group_name }}
+      <span class="text-label-md font-medium text-on-surface-variant">({{ group.members|length }})</span>
+    </h3>
+    <span class="text-label-md font-bold text-primary" data-group-counter>
+      <span class="group-present-count">0</span> / {{ group.members|length }} present
+    </span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {% for member in group.members %}
+    <label class="glass-card p-4 rounded-2xl flex items-center justify-between custom-shadow hover:translate-y-[-2px] transition-all cursor-pointer attendance-row {% if member.is_marked_present %}bg-primary/5 border-primary/20{% endif %}"
+           data-name="{{ member.full_name|lower }}"
+           data-scd-group="{{ group.group_name|lower }}"
+           data-role="{{ member.role|default:'unassigned'|lower }}">
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-sm flex-shrink-0 bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold text-lg">
+          {% if member.photo %}
+            <img class="w-full h-full object-cover" src="{{ member.photo.url }}" alt="{{ member.full_name }}"/>
+          {% else %}
+            {{ member.initials|default:"" }}
+          {% endif %}
+        </div>
+        <div>
+          <h3 class="font-bold text-on-surface text-body-lg">{{ member.full_name }}</h3>
+          <div class="flex items-center gap-2">
+            <span class="text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded font-bold uppercase tracking-wider">{{ member.status|default:"member" }}</span>
+            {% if member.role %}<span class="text-xs text-on-surface-variant">{{ member.role }}</span>{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <input class="attendance-checkbox sr-only"
+             type="checkbox"
+             name="present_members"
+             value="{{ member.id }}"
+             {% if member.is_marked_present %}checked{% endif %}
+             onchange="toggleCheckIn(this)"/>
+
+      <span class="checkin-btn flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold transition-all active:scale-90 h-12 min-w-[120px]
+                    {% if member.is_marked_present %}bg-primary-container text-on-primary-container{% else %}bg-secondary-fixed text-on-surface-variant{% endif %}">
+        <span class="material-symbols-outlined text-[20px] checkin-icon">
+          {% if member.is_marked_present %}check_circle{% else %}person_check{% endif %}
+        </span>
+        <span class="checkin-label">{% if member.is_marked_present %}Checked In{% else %}Check-in{% endif %}</span>
+      </span>
+    </label>
+    {% endfor %}
+  </div>
+</section>
+{% empty %}
+<div class="text-center py-16 text-on-surface-variant">
+  <span class="material-symbols-outlined text-4xl mb-2 block">group_off</span>
+  <p class="text-body-md">No members found. Add members and assign SCD groups first.</p>
+</div>
+{% endfor %}
+</div>
+</form>
+</main>
+<!-- Real-time Counter -->
+<div class="fixed bottom-24 right-4 md:bottom-8 md:right-8 z-50">
+<div class="bg-primary text-white p-4 pr-6 rounded-2xl shadow-2xl flex items-center gap-4 border border-white/20">
+<div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-[28px] fill-icon">person</span>
+</div>
+<div>
+<p class="text-[10px] uppercase font-bold tracking-widest text-primary-fixed/80">Total Checked In</p>
+<p class="text-2xl font-headline-md font-extrabold" id="total-counter">0</p>
+</div>
+</div>
+</div>
+<!-- Mobile Bottom Navigation -->
+{% include 'partials/mobile_nav.html' %}
+<script>
+    (function () {
+        const CHECKED_CLASSES = ['bg-primary-container', 'text-on-primary-container'];
+        const UNCHECKED_CLASSES = ['bg-secondary-fixed', 'text-on-surface-variant'];
+        const ROW_ACTIVE_CLASSES = ['bg-primary/5', 'border-primary/20'];
+        let activeRole = 'all';
+        let activeGroup = 'all';
+
+        // Note: the checkbox lives inside its <label class="attendance-row">,
+        // so the browser already toggles it natively on any click within the
+        // row and fires this onchange handler. No extra click listener needed
+        // (adding one would double-toggle and cancel itself out).
+        function toggleCheckIn(checkbox) {
+            const row = checkbox.closest('.attendance-row');
+            const badge = row.querySelector('.checkin-btn');
+            const icon = row.querySelector('.checkin-icon');
+            const label = row.querySelector('.checkin-label');
+            const isChecked = checkbox.checked;
+
+            badge.classList.toggle(CHECKED_CLASSES[0], isChecked);
+            badge.classList.toggle(CHECKED_CLASSES[1], isChecked);
+            badge.classList.toggle(UNCHECKED_CLASSES[0], !isChecked);
+            badge.classList.toggle(UNCHECKED_CLASSES[1], !isChecked);
+            row.classList.toggle(ROW_ACTIVE_CLASSES[0], isChecked);
+            row.classList.toggle(ROW_ACTIVE_CLASSES[1], isChecked);
+
+            icon.innerText = isChecked ? 'check_circle' : 'person_check';
+            label.innerText = isChecked ? 'Checked In' : 'Check-in';
+
+            updateCounters();
+        }
+
+        function updateCounters() {
+            let grandTotal = 0;
+
+            document.querySelectorAll('[data-scd-group-section]').forEach((section) => {
+        const boxes = section.querySelectorAll('.attendance-checkbox');
+                const checkedCount = Array.from(boxes).filter((b) => b.checked).length;
+                section.querySelector('.group-present-count').innerText = checkedCount;
+                grandTotal += checkedCount;
+            });
+
+            document.getElementById('total-counter').innerText = grandTotal;
+        }
+
+        function filterMembers(query) {
+            const normalized = query.trim().toLowerCase();
+
+            document.querySelectorAll('[data-scd-group-section]').forEach((section) => {
+                let visibleInSection = 0;
+
+                section.querySelectorAll('.attendance-row').forEach((row) => {
+                    const haystack = `${row.dataset.name} ${row.dataset.scdGroup} ${row.dataset.role}`;
+                    const matchesQuery = normalized === '' || haystack.includes(normalized);
+                    const matchesRole = activeRole === 'all' || row.dataset.role === activeRole;
+                    const matchesGroup = activeGroup === 'all' || row.dataset.scdGroup === activeGroup || (activeGroup === 'unassigned' && row.dataset.scdGroup === 'unassigned');
+                    const matches = matchesQuery && matchesRole && matchesGroup;
+                    row.style.display = matches ? '' : 'none';
+                    if (matches) visibleInSection++;
+                });
+
+                section.style.display = visibleInSection > 0 ? '' : 'none';
+            });
+        }
+
+        function setActiveTag(group, selector, activeClassList, inactiveClassList) {
+            document.querySelectorAll(selector).forEach((tag) => {
+                tag.classList.remove(...activeClassList);
+                tag.classList.add(...inactiveClassList);
+            });
+        }
+
+        document.querySelectorAll('.attendance-filter-tag').forEach((tag) => {
+            tag.addEventListener('click', () => {
+                setActiveTag('role', '.attendance-filter-tag', ['bg-primary', 'text-white'], ['bg-white', 'text-on-surface-variant', 'border-outline-variant']);
+                tag.classList.remove('bg-white', 'text-on-surface-variant', 'border-outline-variant');
+                tag.classList.add('bg-primary', 'text-white');
+                activeRole = tag.dataset.role || 'all';
+                filterMembers(document.getElementById('member-search').value);
+            });
+        });
+
+        document.querySelectorAll('.attendance-group-tag').forEach((tag) => {
+            tag.addEventListener('click', () => {
+                setActiveTag('group', '.attendance-group-tag', ['bg-primary', 'text-white'], ['bg-white', 'text-on-surface-variant', 'border-outline-variant']);
+                tag.classList.remove('bg-white', 'text-on-surface-variant', 'border-outline-variant');
+                tag.classList.add('bg-primary', 'text-white');
+                activeGroup = tag.dataset.group || 'all';
+                filterMembers(document.getElementById('member-search').value);
+            });
+        });
+
+        document.getElementById('member-search').addEventListener('input', (e) => {
+            filterMembers(e.target.value);
+        });
+
+        // Initialize counters on load (reflects any already-saved attendance)
+        document.addEventListener('DOMContentLoaded', updateCounters);
+
+        // Expose for the inline onchange="toggleCheckIn(this)" handlers
+        window.toggleCheckIn = toggleCheckIn;
+    })();
+</script>
+</body></html>

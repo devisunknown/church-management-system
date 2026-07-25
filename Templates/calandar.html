@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Events &amp; Scheduling | Scancoat  CMS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#e3e3de",
+                    "on-secondary-container": "#646561",
+                    "primary-container": "#134e4a",
+                    "surface-bright": "#f8f9ff",
+                    "tertiary-fixed-dim": "#ffb77d",
+                    "outline-variant": "#bfc8c6",
+                    "surface-dim": "#d1dbec",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "on-secondary-fixed": "#1b1c19",
+                    "on-surface": "#121c28",
+                    "error": "#ba1a1a",
+                    "surface-container-low": "#eef4ff",
+                    "background": "#f8f9ff",
+                    "outline": "#707977",
+                    "on-secondary-fixed-variant": "#464744",
+                    "inverse-on-surface": "#eaf1ff",
+                    "error-container": "#ffdad6",
+                    "surface": "#f8f9ff",
+                    "on-tertiary-container": "#ff9c42",
+                    "on-primary-fixed": "#00201e",
+                    "tertiary-fixed": "#ffdcc3",
+                    "tertiary": "#4c2600",
+                    "on-primary-container": "#87beb8",
+                    "secondary": "#5e5f5b",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed": "#2f1500",
+                    "on-primary-fixed-variant": "#144f4b",
+                    "primary-fixed": "#b5ede7",
+                    "surface-container-highest": "#d9e3f4",
+                    "surface-container": "#e5eeff",
+                    "tertiary-container": "#6d3800",
+                    "on-primary": "#ffffff",
+                    "on-surface-variant": "#404847",
+                    "inverse-surface": "#27313e",
+                    "on-error": "#ffffff",
+                    "secondary-fixed-dim": "#c7c7c2",
+                    "surface-container-high": "#dfe9fa",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#d9e3f4",
+                    "surface-tint": "#316763",
+                    "inverse-primary": "#9ad1cb",
+                    "primary-fixed-dim": "#9ad1cb",
+                    "on-secondary": "#ffffff",
+                    "primary": "#003633",
+                    "secondary-fixed": "#e3e3de",
+                    "on-background": "#121c28",
+                    "surface-container-lowest": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "card-gap": "20px",
+                    "container-padding": "32px",
+                    "gutter": "24px",
+                    "unit": "4px",
+                    "sidebar-width": "260px"
+            },
+            "fontFamily": {
+                    "label-md": ["Geist"],
+                    "mono-sm": ["Geist"],
+                    "headline-lg": ["Geist"],
+                    "headline-xl": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Geist"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "mono-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #FDFCF7; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-shadow { box-shadow: 0px 4px 20px rgba(19, 78, 74, 0.04); }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(19, 78, 74, 0.05); }
+        .active-nav-border { border-right: 4px solid #003633; background: rgba(0, 54, 51, 0.05); }
+        /* Hide scrollbars but keep functionality */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface selection:bg-primary-fixed-dim selection:text-on-primary-fixed">
+<!-- Navigation Drawer (Desktop) -->
+{% include 'partials/sidebar.html' %}
+<!-- Main Content Area -->
+<main class="md:ml-sidebar-width min-h-screen pb-24 md:pb-8">
+<!-- Top App Bar -->
+<header class="sticky top-0 z-30 flex justify-between items-center w-full px-6 md:px-container-padding py-4 h-16 bg-surface/50 backdrop-blur-md shadow-sm">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 rounded-full hover:bg-primary/5">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">Events</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 rounded-full hover:bg-primary/5 transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-tertiary-container rounded-full"></span>
+</button>
+</div>
+</header>
+<div class="px-6 md:px-container-padding py-6 space-y-gutter">
+<!-- Calendar Section -->
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-md text-primary">{% now "F Y" %}</h2>
+<p class="text-label-md text-on-surface-variant">{% if view_mode == 'monthly' %}All events this month{% else %}Events this week{% endif %}</p>
+</div>
+<div class="bg-secondary-fixed rounded-full p-1 flex">
+<button onclick="window.location.href='?view=weekly{% if selected_date %}&date={{ selected_date|date:'Y-m-d' }}{% endif %}'" class="px-4 py-1.5 rounded-full text-label-md font-bold {% if view_mode == 'weekly' %}bg-primary text-white{% else %}text-on-secondary-container hover:bg-white/50{% endif %} shadow-sm transition-all">Weekly</button>
+<button onclick="window.location.href='?view=monthly{% if selected_date %}&date={{ selected_date|date:'Y-m-d' }}{% endif %}'" class="px-4 py-1.5 rounded-full text-label-md font-bold {% if view_mode == 'monthly' %}bg-primary text-white{% else %}text-on-secondary-container hover:bg-white/50{% endif %} transition-all">Monthly</button>
+</div>
+</div>
+
+<div class="w-full {% if view_mode == 'monthly' %}max-w-full{% else %}max-w-2xl{% endif %}">
+<!-- Date Selector -->
+<div class="flex gap-2 overflow-x-auto pb-2 {% if view_mode == 'monthly' %}flex-wrap justify-start{% endif %}" id="week-date-select">
+{% for date in dates_list %}
+  <button type="button"
+    class="day-card {% if date == selected_date %}selected{% endif %} flex flex-col items-center justify-center {% if view_mode == 'monthly' %}w-14{% else %}min-w-[68px]{% endif %} py-4 rounded-xl {% if date == selected_date %}border-2 border-primary bg-primary{% else %}border border-outline-variant bg-white{% endif %} transition-all hover:border-primary/40"
+    data-date="{{ date|date:'Y-m-d' }}">
+    <span class="font-label-md text-label-md {% if date == selected_date %}text-on-primary/70{% else %}text-outline{% endif %}">{% if view_mode == 'monthly' %}{{ date|date:'D'|slice:':1'|upper }}{% else %}{{ date|date:'D'|slice:':3'|upper }}{% endif %}</span>
+    <span class="font-headline-md text-headline-md {% if date == selected_date %}text-on-primary{% else %}text-on-surface{% endif %} mt-1">{{ date|date:'d' }}</span>
+    <span class="dot mt-1.5 w-1.5 h-1.5 rounded-full bg-transparent"></span>
+  </button>
+{% endfor %}
+</div>
+<!-- Hidden input so the selected date can be read on form submit / read via JS -->
+<input type="hidden" id="selected-date" name="selected_date" value="{% if selected_date %}{{ selected_date|date:'Y-m-d' }}{% else %}{% now 'Y-m-d' %}{% endif %}">
+<p class="font-label-md text-label-md text-outline mt-4">
+ Selected: <span id="selected-display" class="text-on-surface font-medium">{% if selected_date %}{{ selected_date|date:'Y-m-d' }}{% else %}{% now 'Y-m-d' %}{% endif %}</span>
+</p>
+
+</div>
+
+<script>
+
+  (function () {
+    const strip = document.getElementById('week-date-select');
+    const hiddenInput = document.getElementById('selected-date');
+    const display = document.getElementById('selected-display');
+
+    function selectDateCard(date, shouldNavigate = false) {
+      const selectedCard = strip.querySelector(`.day-card[data-date="${date}"]`);
+      if (!selectedCard) return;
+
+      strip.querySelectorAll('.day-card').forEach((el) => {
+        el.classList.remove('selected', 'bg-primary', 'border-primary', 'border-2');
+        el.classList.add('bg-white', 'border', 'border-outline-variant');
+        el.querySelectorAll('span').forEach((s, i) => {
+          if (i === 0) { s.classList.remove('text-on-primary/70'); s.classList.add('text-outline'); }
+          if (i === 1) { s.classList.remove('text-on-primary'); s.classList.add('text-on-surface'); }
+        });
+      });
+
+      selectedCard.classList.remove('bg-white', 'border', 'border-outline-variant');
+      selectedCard.classList.add('selected', 'bg-primary', 'border-primary', 'border-2');
+      selectedCard.querySelectorAll('span').forEach((s, i) => {
+        if (i === 0) { s.classList.remove('text-outline'); s.classList.add('text-on-primary/70'); }
+        if (i === 1) { s.classList.remove('text-on-surface'); s.classList.add('text-on-primary'); }
+      });
+
+      hiddenInput.value = date;
+      display.textContent = date;
+
+      strip.dispatchEvent(new CustomEvent('dateSelected', { detail: { date } }));
+
+      if (shouldNavigate) {
+        const query = new URLSearchParams(window.location.search);
+        query.set('date', date);
+        window.location.search = '?' + query.toString();
+      }
+    }
+
+    strip.addEventListener('click', (e) => {
+      const card = e.target.closest('.day-card');
+      if (!card) return;
+      selectDateCard(card.dataset.date, true);
+    });
+
+    strip.addEventListener('dateSelected', (e) => {
+      console.log('Selected date:', e.detail.date);
+    });
+
+    const initialDate = hiddenInput.value;
+    if (initialDate) {
+      selectDateCard(initialDate);
+    }
+  })();
+
+</script>
+
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Upcoming Events List -->
+<div class="lg:col-span-2 space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-on-surface">Events on {% if selected_date %}{{ selected_date|date:'F j, Y' }}{% else %}{% now 'F j, Y' %}{% endif %}</h3>
+<button class="text-label-md font-bold text-primary hover:underline">View All</button>
+</div>
+<div class="space-y-4">
+{% if events %}
+{% for event in events %}
+<div class="group bg-white p-5 rounded-2xl custom-shadow border border-outline-variant/10 hover:translate-y-[-2px] transition-all flex flex-col sm:flex-row gap-5 items-start sm:items-center">
+    <div class="w-16 h-16 rounded-xl bg-tertiary-fixed flex flex-col items-center justify-center text-on-tertiary-fixed shrink-0">
+        <span class="material-symbols-outlined">music_note</span>
+    </div>
+    <div class="flex-grow">
+        <h4 class="font-bold text-on-surface">{{ event.title }}</h4>
+        <div class="flex items-center gap-3 mt-1 text-on-surface-variant">
+            <span class="flex items-center gap-1 text-label-md">
+                <span class="material-symbols-outlined text-[16px]">schedule</span>
+                {{ event.start_time|time:"h:i A" }} - {{ event.end_time|time:"h:i A" }}
+            </span>
+            <span class="flex items-center gap-1 text-label-md">
+                <span class="material-symbols-outlined text-[16px]">location_on</span>
+                {{ event.location }}
+            </span>
+        </div>
+    </div>
+    <div class="flex flex-col items-end gap-2 shrink-0">
+        <span class="bg-primary/5 text-primary px-3 py-1 rounded-full text-label-md font-bold">
+            {% if event.registration_open %}Registration Open{% else %}No Registration{% endif %}
+        </span>
+        <span class="text-label-md text-on-surface-variant">{{ event.booked_count }}/{{ event.capacity }} booked</span>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="bg-white p-5 rounded-2xl custom-shadow border border-outline-variant/10 text-center text-on-surface-variant">
+  No events are scheduled for this date.
+</div>
+{% endif %}
+</div>
+</div>
+<!-- Volunteer Scheduling Sidebar -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-md text-on-surface">Volunteer Status</h3>
+<span class="text-label-md bg-secondary-fixed px-2 py-0.5 rounded uppercase font-bold text-on-secondary-fixed-variant">Next Service</span>
+</div>
+<div class="bg-white p-6 rounded-2xl custom-shadow border border-outline-variant/10 space-y-6">
+<div class="flex flex-col gap-1">
+<span class="text-body-md font-bold text-primary">Sunday 1st Service</span>
+<span class="text-label-md text-on-surface-variant">Oct 22, 9:00 AM</span>
+</div>
+<div class="space-y-5">
+<!-- Role 1 -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="text-label-md font-bold text-on-surface">Ushers</span>
+<span class="text-label-md text-on-surface-variant">4/5 filled</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 80%"></div>
+</div>
+</div>
+<!-- Role 2 -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="text-label-md font-bold text-on-surface">Media &amp; Tech</span>
+<span class="text-label-md text-primary font-bold">Full</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 100%"></div>
+</div>
+</div>
+<!-- Role 3 -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="text-label-md font-bold text-on-surface">Greeters</span>
+<span class="text-label-md text-on-surface-variant">2/4 filled</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container rounded-full transition-all duration-1000" style="width: 50%"></div>
+</div>
+</div>
+<!-- Role 4 -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<span class="text-label-md font-bold text-on-surface">Nursery</span>
+<span class="text-label-md text-error font-bold">Critical</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error rounded-full transition-all duration-1000" style="width: 25%"></div>
+</div>
+</div>
+</div>
+<button class="w-full py-3 bg-secondary-fixed text-primary font-bold rounded-xl hover:bg-secondary-fixed-dim transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">manage_accounts</span>
+                            Open Rota Manager
+                        </button>
+</div>
+<!-- Small Insight Card -->
+<div class="bg-primary-container text-on-primary-container p-6 rounded-2xl custom-shadow flex items-start gap-4">
+<span class="material-symbols-outlined text-tertiary-fixed">tips_and_updates</span>
+<div class="space-y-1">
+<p class="font-bold text-white">Scheduling Tip</p>
+<p class="text-label-md opacity-90 leading-relaxed">Most volunteers confirm 72 hours before. Send reminders today for the weekend service.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button -->
+ <form action='{% url 'addevent' %}' method='Post'>
+    {% csrf_token %}
+<button class="fixed bottom-24 md:bottom-8 right-6 md:right-8 w-14 h-14 bg-primary text-white rounded-full custom-shadow flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40 group">
+<span class="material-symbols-outlined">add</span>
+<span class="absolute right-full mr-4 bg-primary text-white px-4 py-2 rounded-lg text-label-md font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Create Event</span>
+</button>
+</form>
+</main>
+<!-- Bottom Navigation (Mobile) -->
+{% include 'partials/mobile_nav.html' %}
+<script>
+        // Simple micro-interaction for calendar selection
+        document.querySelectorAll('.flex-shrink-0.w-16.h-24').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.flex-shrink-0.w-16.h-24').forEach(c => {
+                    c.classList.remove('bg-primary-container', 'text-white', 'scale-105', 'ring-4', 'ring-primary-container/10');
+                    c.classList.add('bg-white');
+                    const span1 = c.querySelector('span:first-child');
+                    const span2 = c.querySelector('span:nth-child(2)');
+                    if(span1) span1.classList.remove('opacity-80');
+                    if(span1) span1.classList.add('text-on-surface-variant');
+                    if(span2) span2.classList.add('text-on-surface');
+                });
+
+                card.classList.remove('bg-white');
+                card.classList.add('bg-primary-container', 'text-white', 'scale-105', 'ring-4', 'ring-primary-container/10');
+                const s1 = card.querySelector('span:first-child');
+                const s2 = card.querySelector('span:nth-child(2)');
+                if(s1) s1.classList.add('opacity-80');
+                if(s1) s1.classList.remove('text-on-surface-variant');
+                if(s2) s2.classList.remove('text-on-surface');
+            });
+        });
+    </script>
+</body></html>

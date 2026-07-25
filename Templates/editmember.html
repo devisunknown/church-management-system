@@ -1,0 +1,658 @@
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Steward Admin - Edit Member</title>
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-container": "#6d3800",
+              error: "#ba1a1a",
+              outline: "#707977",
+              "on-secondary": "#ffffff",
+              "on-primary-fixed-variant": "#144f4b",
+              "inverse-primary": "#9ad1cb",
+              "surface-container-low": "#eef4ff",
+              "surface-variant": "#d9e3f4",
+              "on-tertiary-fixed": "#2f1500",
+              "primary-container": "#134e4a",
+              "on-error": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "inverse-surface": "#27313e",
+              "on-primary-fixed": "#00201e",
+              secondary: "#5e5f5b",
+              "primary-fixed-dim": "#9ad1cb",
+              "on-error-container": "#93000a",
+              "surface-tint": "#316763",
+              "primary-fixed": "#b5ede7",
+              "on-tertiary-fixed-variant": "#6e3900",
+              "surface-container-highest": "#d9e3f4",
+              "secondary-fixed": "#e3e3de",
+              "on-surface-variant": "#404847",
+              "on-background": "#121c28",
+              "inverse-on-surface": "#eaf1ff",
+              "tertiary-fixed": "#ffdcc3",
+              "on-secondary-container": "#646561",
+              "on-primary-container": "#87beb8",
+              "tertiary-fixed-dim": "#ffb77d",
+              "secondary-container": "#e3e3de",
+              "on-secondary-fixed-variant": "#464744",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed-dim": "#c7c7c2",
+              "outline-variant": "#bfc8c6",
+              "on-secondary-fixed": "#1b1c19",
+              background: "#f8f9ff",
+              "surface-container": "#e5eeff",
+              "on-primary": "#ffffff",
+              "on-tertiary-container": "#ff9c42",
+              tertiary: "#4c2600",
+              "surface-bright": "#f8f9ff",
+              "error-container": "#ffdad6",
+              surface: "#f8f9ff",
+              "surface-dim": "#d1dbec",
+              primary: "#003633",
+              "surface-container-high": "#dfe9fa",
+              "on-surface": "#121c28",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              "card-gap": "20px",
+              unit: "4px",
+              gutter: "24px",
+              "sidebar-width": "260px",
+              "container-padding": "32px",
+            },
+            fontFamily: {
+              "body-md": ["Inter"],
+              "headline-xl": ["Geist"],
+              "headline-md": ["Geist"],
+              "body-lg": ["Inter"],
+              "label-md": ["Geist"],
+              "headline-lg-mobile": ["Geist"],
+              "mono-sm": ["Geist"],
+              "headline-lg": ["Geist"],
+            },
+            fontSize: {
+              "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+              "headline-xl": [
+                "40px",
+                {
+                  lineHeight: "48px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-md": [
+                "20px",
+                { lineHeight: "28px", fontWeight: "500" },
+              ],
+              "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "label-md": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.05em",
+                  fontWeight: "500",
+                },
+              ],
+              "headline-lg-mobile": [
+                "24px",
+                { lineHeight: "32px", fontWeight: "600" },
+              ],
+              "mono-sm": ["13px", { lineHeight: "18px", fontWeight: "400" }],
+              "headline-lg": [
+                "30px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: #fdfcf7; /* Level 0 Background per style guidance */
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+        vertical-align: middle;
+      }
+      .custom-shadow {
+        box-shadow: 0px 4px 20px rgba(19, 78, 74, 0.04);
+      }
+      .input-focus-ring:focus {
+        outline: none;
+        border-color: #003633;
+        box-shadow: 0 0 0 4px rgba(0, 54, 51, 0.1);
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body class="font-body-md text-on-surface antialiased">
+{% include 'partials/sidebar.html' %}
+<main
+      class="min-h-screen flex flex-col items-center py-12 px-4 md:px-container-padding md:ml-sidebar-width"
+    >
+      <div class="w-full max-w-4xl space-y-6">
+        <!-- Header Section -->
+        <header
+          class="flex justify-between items-center bg-surface-container-lowest custom-shadow rounded-xl p-6 mb-8 border border-outline-variant/10"
+        >
+          <div class="flex items-center gap-4">
+            <div
+              class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary"
+            >
+              <span class="material-symbols-outlined">person_add</span>
+            </div>
+            <div>
+              <h1 class="text-headline-md font-headline-md text-on-surface">
+                Edit Member
+              </h1>
+              <p class="text-label-md font-label-md text-on-surface-variant">
+                MINISTRY RESOURCE MANAGEMENT
+              </p>
+            </div>
+          </div>
+          <button
+            class="flex items-center gap-2 px-4 py-2 text-on-surface-variant hover:bg-secondary-container/50 rounded-lg transition-all duration-200"
+            onclick="window.history.back()"
+          >
+            <span class="material-symbols-outlined">close</span>
+            <span class="font-label-md text-label-md">CANCEL</span>
+          </button>
+        </header>
+        <!-- Form Content -->
+        <form
+          class="grid grid-cols-1 md:grid-cols-12 gap-card-gap"
+          id="addMemberForm"
+          method="post"
+          action="{% url 'editmember' member.id %}"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <!-- Left Column: Personal & Membership (8 cols) -->
+          <div class="md:col-span-8 space-y-card-gap">
+            <!-- Personal Information Card -->
+            <section
+              class="bg-surface-container-lowest p-gutter rounded-xl custom-shadow border border-outline-variant/10 hover:shadow-md transition-all duration-300"
+            >
+              <div class="flex items-center gap-2 mb-6">
+                <span class="material-symbols-outlined text-primary"
+                  >badge</span
+                >
+                <h2 class="text-headline-md font-headline-md text-primary">
+                  Personal Information
+                </h2>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Profile Photo Placeholder -->
+                <div
+                  class="md:col-span-2 flex items-center gap-6 pb-4 border-b border-outline-variant/10"
+                >
+                  <div class="relative group" data-has-image="false">
+                    <div
+                      class="w-24 h-24 rounded-full bg-secondary-container flex items-center justify-center border-2 border-dashed border-outline-variant overflow-hidden"
+                    >
+                      <img
+                        class="w-full h-full object-cover hidden group-data-[has-image=true]:block"
+                        data-alt="A warm, professional headshot portrait of a smiling community member in soft natural sunlight. The image is bright and welcoming, with a shallow depth of field focusing on friendly eyes. The aesthetic is clean and modern, following a warm-neutral color palette with soft cream and teal accents, typical of a high-end ministry tool."
+                        id="previewImage"
+                        src="{% if member.photo %}{{ member.photo.url }}{% endif %}"
+                        alt="Member preview"
+                      />
+                      <span
+                        class="material-symbols-outlined text-4xl text-on-surface-variant group-data-[has-image=true]:hidden"
+                        >add_a_photo</span
+                      >
+                    </div>
+                    <input
+                      accept="image/*"
+                      class="hidden"
+                      id="imageInput"
+                      name="image"
+                      type="file"
+                    />
+                    <button
+                      class="absolute -bottom-1 -right-1 bg-primary text-white p-2 rounded-full shadow-lg hover:scale-105 transition-transform"
+                      type="button"
+                      id="triggerImagePicker"
+                    >
+                      <span class="material-symbols-outlined text-sm"
+                        >edit</span
+                      >
+                    </button>
+                  </div>
+                  <div class="space-y-1">
+                    <h3 class="font-headline-md text-body-lg">
+                      Profile Photograph
+                    </h3>
+                    <p class="text-label-md text-on-surface-variant">
+                      Upload a clear photo for the member directory.
+                    </p>
+                    <button
+                      class="text-label-md font-bold text-primary hover:underline"
+                      type="button"
+                      id="selectFileButton"
+                    >
+                      SELECT FILE
+                    </button>
+                  </div>
+                </div>
+                  <div class="space-y-2">
+                   <label
+                     class="text-label-md font-label-md text-on-surface-variant"
+                     >FULL NAME</label
+                   >
+                   <input
+                     class="w-full p-3 bg-background border border-outline-variant rounded-lg font-body-md text-on-surface input-focus-ring transition-all"
+                     placeholder="e.g. Johnathan Smith"
+                     required=""
+                     type="text"
+                     id="firstname"
+                     name="firstname"
+                     value="{{ member.firstname }}"
+                   />
+                 </div>
+                <div class="space-y-2">
+                  <label
+                    class="text-label-md font-label-md text-on-surface-variant"
+                    >EMAIL ADDRESS</label
+                  >
+                  <input
+                    class="w-full p-3 bg-background border border-outline-variant rounded-lg font-body-md text-on-surface input-focus-ring transition-all"
+                    placeholder="john@example.com"
+                    required=""
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ member.email }}"
+                  />
+                </div>
+                <div class="space-y-2">
+                  <label
+                    class="text-label-md font-label-md text-on-surface-variant"
+                    >PHONE NUMBER</label
+                  >
+                  <input
+                    class="w-full p-3 bg-background border border-outline-variant rounded-lg font-body-md text-on-surface input-focus-ring transition-all"
+                    placeholder="(555) 000-0000"
+                    type="tel"
+                    id="phonenumber"
+                    name="phonenumber"
+                    value="{{ member.phone_number }}"
+                  />
+                </div>
+                <div class="space-y-2">
+                  <label
+                    class="text-label-md font-label-md text-on-surface-variant"
+                   >RESIDENCE</label
+                  >
+                  <input
+                    class="w-full p-3 bg-background border border-outline-variant rounded-lg font-body-md text-on-surface input-focus-ring transition-all"
+                   placeholder="e.g. Accra, Ghana"
+                   type="text"
+                   id="residence"
+                   name="residence"
+                   value="{{ member.residence }}"
+                  />
+                </div>
+                <div class="space-y-2">
+                  <label
+                   class="text-label-md font-label-md text-on-surface-variant"
+                   >ADDRESS</label
+                  >
+                  <input
+                   class="w-full p-3 bg-background border border-outline-variant rounded-lg font-body-md text-on-surface input-focus-ring transition-all"
+                   placeholder="e.g. 123 Main Street"
+                   type="text"
+                   id="address"
+                   name="address"
+                   value="{{ member.address }}"
+                  />
+                </div>
+                <div class="space-y-2">
+                  <label
+                   class="text-label-md font-label-md text-on-surface-variant"
+                   >PREFERRED CONTACT</label
+                  >
+                  <select
+                   class="w-full p-3 bg-background border border-outline-variant rounded-lg font-body-md text-on-surface input-focus-ring transition-all"
+                   name="preferedcontact"
+                  >
+                   <option value="Email" {% if member.ministration == 'Email' %}selected{% endif %}>Email</option>
+                   <option value="Phone" {% if member.ministration == 'Phone' %}selected{% endif %}>Phone</option>
+                   <option value="SMS" {% if member.ministration == 'SMS' %}selected{% endif %}>SMS</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+            <!-- Membership Details Card -->
+            <section
+              class="bg-surface-container-lowest p-gutter rounded-xl custom-shadow border border-outline-variant/10 hover:shadow-md transition-all duration-300"
+            >
+              <div class="flex items-center gap-2 mb-6">
+                <span class="material-symbols-outlined text-primary"
+                  >church</span
+                >
+                <h2 class="text-headline-md font-headline-md text-primary">
+                  Membership Details
+                </h2>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label
+                   class="text-label-md font-label-md text-on-surface-variant"
+                   >MEMBERSHIP STATUS</label
+                  >
+                  <select
+                   class="w-full p-3 bg-background border border-outline-variant rounded-lg font-body-md text-on-surface input-focus-ring transition-all"
+                   name="status"
+                  >
+                   <option value="active" {% if member.membership_status == 'active' %}selected{% endif %}>Active Member</option>
+                   <option value="visitor" {% if member.membership_status == 'visitor' %}selected{% endif %}>Visitor</option>
+                   <option value="inactive" {% if member.membership_status == 'inactive' %}selected{% endif %}>Inactive</option>
+                   <option value="prospective" {% if member.membership_status == 'prospective' %}selected{% endif %}>Prospective</option>
+                  </select>
+                </div>
+                <div class="space-y-2">
+                  <label
+                   class="text-label-md font-label-md text-on-surface-variant"
+                   >SCD GROUP</label
+                  >
+                  <select
+                   class="w-full p-3 bg-background border border-outline-variant rounded-lg font-body-md text-on-surface input-focus-ring transition-all"
+                   name="group"
+                   id="group"
+                  >
+                   <option value="1" {% if member.scd_group == '1' %}selected{% endif %}>1</option>
+                   <option value="2" {% if member.scd_group == '2' %}selected{% endif %}>2</option>
+                   <option value="3" {% if member.scd_group == '3' %}selected{% endif %}>3</option>
+                   <option value="4" {% if member.scd_group == '4' %}selected{% endif %}>4</option>
+                   <option value="5" {% if member.scd_group == '5' %}selected{% endif %}>5</option>
+                   <option value="6" {% if member.scd_group == '6' %}selected{% endif %}>6</option>
+                   <option value="7" {% if member.scd_group == '7' %}selected{% endif %}>7</option>
+                  </select>
+                </div>
+                <div class="space-y-2">
+                  <label
+                   class="text-label-md font-label-md text-on-surface-variant"
+                   >ROLES</label
+                  >
+                  <select
+                   class="w-full p-3 bg-background border border-outline-variant rounded-lg font-body-md text-on-surface input-focus-ring transition-all"
+                   name="Roles"
+                   id="Roles"
+                  >
+                   <option value="member" {% if member.role == 'member' %}selected{% endif %}>MEMBER</option>
+                   <option value="rockhouse" {% if member.role == 'rockhouse' %}selected{% endif %}>ROCKHOUSE SHAKERS</option>
+                   <option value="ushers" {% if member.role == 'ushers' %}selected{% endif %}>SMILES AND SHINES(USHERS)</option>
+                   <option value="event" {% if member.role == 'event' %}selected{% endif %}>EVENT TEAM</option>
+                   <option value="data" {% if member.role == 'data' %}selected{% endif %}>DATA TEAM/MINISTRY</option>
+                   <option value="singers" {% if member.role == 'singers' %}selected{% endif %}>SINGERS</option>
+                    <option value="media" {% if member.role == 'media' %}selected{% endif %}>MEDIA TEAM</option> 
+                  </select>
+                </div>
+                <div class="space-y-2">
+                  <label
+                   class="text-label-md font-label-md text-on-surface-variant"
+                   >DATE JOINED</label
+                  >
+                  <input
+                   class="w-full p-3 bg-background border border-outline-variant rounded-lg font-body-md text-on-surface input-focus-ring transition-all"
+                   type="date"
+                   name="datejoined"
+                   value="{% if member.datejoined %}{{ member.datejoined|date:'Y-m-d' }}{% endif %}"
+                  />
+                </div>
+                <div class="md:col-span-2 space-y-2">
+                  <label
+                   class="text-label-md font-label-md text-on-surface-variant"
+                   >NOTES &amp; PRAYER REQUESTS</label
+                  >
+                  <textarea
+                    class="w-full p-3 bg-background border border-outline-variant rounded-lg font-body-md text-on-surface input-focus-ring transition-all resize-none"
+                    placeholder="Brief notes about the member's journey or current prayer needs..."
+                    rows="4"
+                    name="notes"
+                  >{{ member.notes }}</textarea>
+                </div>
+              </div>
+            </section>
+          </div>
+          <!-- Right Column: Family & Actions (4 cols) -->
+          <div class="md:col-span-4 space-y-card-gap">
+            <!-- Family & Household Card -->
+            <section
+              class="bg-surface-container-lowest p-gutter rounded-xl custom-shadow border border-outline-variant/10"
+            >
+              <div class="flex items-center gap-2 mb-6">
+                <span class="material-symbols-outlined text-primary"
+                  >family_history</span
+                >
+                <h2 class="text-headline-md font-headline-md text-primary">
+                  Family Unit
+                </h2>
+              </div>
+              <div class="space-y-6">
+                <div class="space-y-2">
+                  <label
+                    class="text-label-md font-label-md text-on-surface-variant"
+                    >HOUSEHOLD NAME/SIR NAME</label
+                  >
+                  <input
+                    class="w-full p-3 bg-background border border-outline-variant rounded-lg font-body-md text-on-surface input-focus-ring transition-all"
+                    placeholder="The Smith Family"
+                    type="text"
+                    name="lastname"
+                    id="lastname"
+                    value="{{ member.lastname }}"
+                  />
+                </div>
+                <div
+                  class="flex items-center justify-between p-3 bg-surface rounded-lg border border-outline-variant/10"
+                >
+                  <div class="space-y-0.5">
+                    <span class="text-body-md font-medium text-on-surface"
+                      >Head of Household</span
+                    >
+                    <p class="text-label-md text-on-surface-variant">
+                      Mark as primary contact
+                    </p>
+                  </div>
+                  <label
+                    class="relative inline-flex items-center cursor-pointer"
+                  >
+                    <input class="sr-only peer" type="checkbox" />
+                    <div
+                      class="w-11 h-6 bg-secondary-fixed-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"
+                    ></div>
+                  </label>
+                </div>
+                <button
+                  class="w-full py-3 px-4 border border-dashed border-primary text-primary rounded-lg font-label-md hover:bg-primary/5 transition-colors flex items-center justify-center gap-2"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined text-sm"
+                    >group_add</span
+                  >
+                  LINK TO EXISTING FAMILY
+                </button>
+              </div>
+            </section>
+            <!-- Summary / Action Card -->
+            <section
+              class="bg-primary-container p-gutter rounded-xl custom-shadow text-on-primary-container flex flex-col gap-6 sticky top-8"
+            >
+              <div class="space-y-2">
+                <h3 class="font-headline-md text-primary-fixed">
+                  Ready to Save?
+                </h3>
+                <p class="text-body-md opacity-90">
+                  Ensure all primary contact fields are filled for member
+                  outreach automation.
+                </p>
+              </div>
+              <div class="space-y-3">
+                <button
+                  class="w-full py-4 px-6 bg-primary-fixed text-on-primary-fixed font-headline-md rounded-xl hover:bg-white transition-all duration-300 flex items-center justify-center gap-3 shadow-lg active:scale-95"
+                  type="submit"
+                >
+                  <span class="material-symbols-outlined">save</span>
+                  SAVE MEMBER
+                </button>
+                <button
+                  class="w-full py-3 px-6 bg-primary text-on-primary-fixed-variant font-label-md rounded-xl hover:bg-primary/80 transition-all border border-primary-fixed/20"
+                  type="button"
+                >
+                  SAVE &amp; ADD ANOTHER
+                </button>
+              </div>
+              <div class="pt-4 border-t border-primary-fixed/10">
+                <div class="flex items-center gap-2 text-primary-fixed/60">
+                  <span class="material-symbols-outlined text-sm"
+                    >verified_user</span
+                  >
+                  <span class="text-label-md"
+                    >Privacy &amp; Data Compliant</span
+                  >
+                </div>
+              </div>
+            </section>
+          </div>
+        </form>
+      </div>
+      <!-- Success Toast (Hidden by default) -->
+      <div
+        class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-surface-container-highest text-on-surface px-8 py-4 rounded-full shadow-2xl flex items-center gap-4 border border-primary/20 opacity-0 pointer-events-none transition-all duration-500 translate-y-4"
+        id="successToast"
+      >
+        <div
+          class="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center"
+        >
+          <span class="material-symbols-outlined text-sm">check</span>
+        </div>
+        <span class="font-headline-md text-body-md"
+          >Member profile created successfully.</span
+        >
+      </div>
+    </main>
+    <!-- Background Decoration -->
+    <div
+      class="fixed inset-0 -z-10 opacity-30 pointer-events-none overflow-hidden"
+    >
+      <div
+        class="absolute -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
+      ></div>
+      <div
+        class="absolute top-1/2 -right-48 w-[500px] h-[500px] bg-tertiary-fixed/10 rounded-full blur-3xl"
+      ></div>
+    </div>
+    <!-- Bottom Navigation (Mobile) -->
+    {% include 'partials/mobile_nav.html' %}
+<script>
+      // Simple Interaction logic
+      const form = document.getElementById("addMemberForm");
+      const toast = document.getElementById("successToast");
+      const imageInput = document.getElementById("imageInput");
+      const previewImage = document.getElementById("previewImage");
+      const triggerImagePicker = document.getElementById("triggerImagePicker");
+      const selectFileButton = document.getElementById("selectFileButton");
+      const imageGroup = document.querySelector(".group[data-has-image]");
+
+      // Initialize has-image state if member already has a photo
+      if (previewImage.src && previewImage.src.trim() !== "") {
+        imageGroup.setAttribute("data-has-image", "true");
+        previewImage.classList.remove("hidden");
+      }
+
+      const openImagePicker = () => {
+        imageInput.click();
+      };
+
+      triggerImagePicker.addEventListener("click", openImagePicker);
+      selectFileButton.addEventListener("click", openImagePicker);
+
+      imageInput.addEventListener("change", (event) => {
+        const file = event.target.files && event.target.files[0];
+        if (!file) {
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewImage.src = e.target.result;
+          previewImage.classList.remove("hidden");
+          imageGroup.setAttribute("data-has-image", "true");
+        };
+        reader.readAsDataURL(file);
+      });
+
+      form.addEventListener("submit", () => {
+        toast.classList.remove(
+          "opacity-0",
+          "pointer-events-none",
+          "translate-y-4",
+        );
+        toast.classList.add("opacity-100", "-translate-y-4");
+
+        setTimeout(() => {
+          toast.classList.add(
+            "opacity-0",
+            "pointer-events-none",
+            "translate-y-4",
+          );
+          toast.classList.remove("opacity-100", "-translate-y-4");
+        }, 3000);
+      });
+
+      // Hover lift effect for cards (handled by tailwind but manual refinement if needed)
+      const cards = document.querySelectorAll("section");
+      cards.forEach((card) => {
+        card.addEventListener("mouseenter", () => {
+          card.style.transform = "translateY(-2px)";
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "translateY(0px)";
+        });
+      });
+    </script>
+  </body>
+</html>

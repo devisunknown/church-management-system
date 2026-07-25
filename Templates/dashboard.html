@@ -1,0 +1,407 @@
+{% load humanize %}
+<!doctype html>
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Steward CMS | Church Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Geist:wght@400;500;600;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #fdfcf7; /* Warm Level 0 Background from Style Guidance */
+      }
+      .font-headline {
+        font-family: "Geist", sans-serif;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(19, 78, 74, 0.05);
+      }
+      .soft-shadow {
+        box-shadow: 0px 4px 20px rgba(19, 78, 74, 0.04);
+      }
+      .activity-line::before {
+        content: "";
+        position: absolute;
+        left: 11px;
+        top: 24px;
+        bottom: -8px;
+        width: 2px;
+        background: #e5eeff;
+      }
+      .activity-line:last-child::before {
+        display: none;
+      }
+    </style>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#e3e3de",
+              "on-secondary-container": "#646561",
+              "primary-container": "#134e4a",
+              "surface-bright": "#f8f9ff",
+              "tertiary-fixed-dim": "#ffb77d",
+              "outline-variant": "#bfc8c6",
+              "surface-dim": "#d1dbec",
+              "on-tertiary-fixed-variant": "#6e3900",
+              "on-secondary-fixed": "#1b1c19",
+              "on-surface": "#121c28",
+              error: "#ba1a1a",
+              "surface-container-low": "#eef4ff",
+              background: "#f8f9ff",
+              outline: "#707977",
+              "on-secondary-fixed-variant": "#464744",
+              "inverse-on-surface": "#eaf1ff",
+              "error-container": "#ffdad6",
+              surface: "#f8f9ff",
+              "on-tertiary-container": "#ff9c42",
+              "on-primary-fixed": "#00201e",
+              "tertiary-fixed": "#ffdcc3",
+              tertiary: "#4c2600",
+              "on-primary-container": "#87beb8",
+              secondary: "#5e5f5b",
+              "on-tertiary": "#ffffff",
+              "on-tertiary-fixed": "#2f1500",
+              "on-primary-fixed-variant": "#144f4b",
+              "primary-fixed": "#b5ede7",
+              "surface-container-highest": "#d9e3f4",
+              "surface-container": "#e5eeff",
+              "tertiary-container": "#6d3800",
+              "on-primary": "#ffffff",
+              "on-surface-variant": "#404847",
+              "inverse-surface": "#27313e",
+              "on-error": "#ffffff",
+              "secondary-fixed-dim": "#c7c7c2",
+              "surface-container-high": "#dfe9fa",
+              "on-error-container": "#93000a",
+              "surface-variant": "#d9e3f4",
+              "surface-tint": "#316763",
+              "inverse-primary": "#9ad1cb",
+              "primary-fixed-dim": "#9ad1cb",
+              "on-secondary": "#ffffff",
+              primary: "#003633",
+              "secondary-fixed": "#e3e3de",
+              "on-background": "#121c28",
+              "surface-container-lowest": "#ffffff",
+            },
+            spacing: {
+              "card-gap": "20px",
+              "container-padding": "32px",
+              gutter: "24px",
+              unit: "4px",
+              "sidebar-width": "260px",
+            },
+            fontFamily: {
+              "label-md": ["Geist"],
+              "headline-lg": ["Geist"],
+              "headline-md": ["Geist"],
+              "body-lg": ["Inter"],
+              "body-md": ["Inter"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body class="bg-surface-container-lowest min-h-screen text-on-surface">
+    <!-- Desktop Sidebar -->
+    {% include 'partials/sidebar.html' %}
+<!-- Main Content Canvas -->
+    <main class="md:ml-sidebar-width min-h-screen pb-24 md:pb-8">
+      <!-- Top App Bar -->
+      <header
+        class="flex justify-between items-center w-full px-6 md:px-container-padding py-4 h-16 bg-surface/50 backdrop-blur-md sticky top-0 z-30"
+      >
+        <div class="flex items-center gap-4">
+          <button class="md:hidden text-primary">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+          <h2 class="text-headline-md font-headline-md font-bold text-primary">
+            Dashboard
+          </h2>
+        </div>
+        <div class="flex items-center gap-4">
+          <button
+            class="p-2 text-on-surface-variant hover:bg-primary/5 rounded-full transition-colors"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <div class="h-8 w-px bg-outline-variant/50 hidden md:block"></div>
+          <a
+            class="flex items-center gap-2 bg-tertiary-fixed text-on-tertiary-fixed px-4 py-2 rounded-full text-label-md font-bold hover:scale-105 active:scale-95 transition-all"
+            href="{% url 'addmember' %}"
+          >
+            <span class="material-symbols-outlined" style="font-size: 18px"
+              >add</span
+            >
+            <span>New Record</span>
+          </a>
+        </div>
+      </header>
+      <div class="px-6 md:px-container-padding py-6 space-y-8">
+        <!-- Overview Grid (Bento Style) -->
+        <section
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-card-gap"
+        >
+          <!-- Total Members -->
+          <div
+            class="bg-surface-container-lowest p-6 rounded-xl soft-shadow hover:-translate-y-1 transition-transform border border-outline-variant/10"
+          >
+            <div class="flex justify-between items-start mb-4">
+              <div class="p-2 bg-primary/5 rounded-lg">
+                <span class="material-symbols-outlined text-primary"
+                  >group</span
+                >
+              </div>
+            </div>
+            <p
+              class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider"
+            >
+              Total Members
+            </p>
+            <h3 class="text-headline-lg font-headline-lg mt-1">{{ total_members|intcomma }}</h3>
+          </div>
+          <!-- Weekly Attendance -->
+          <div
+            class="bg-surface-container-lowest p-6 rounded-xl soft-shadow hover:-translate-y-1 transition-transform border border-outline-variant/10"
+          >
+            <div class="flex justify-between items-start mb-4">
+              <div class="p-2 bg-primary/5 rounded-lg">
+                <span class="material-symbols-outlined text-primary"
+                  >event_available</span
+                >
+              </div>
+            </div>
+            <p
+              class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider"
+            >
+              Weekly Attendance
+            </p>
+            <h3 class="text-headline-lg font-headline-lg mt-1">{{ weekly_attendance|default:"—" }}</h3>
+          </div>
+          <!-- Recent Giving -->
+          <div
+            class="bg-surface-container-lowest p-6 rounded-xl soft-shadow hover:-translate-y-1 transition-transform border border-outline-variant/10"
+          >
+            <div class="flex justify-between items-start mb-4">
+              <div class="p-2 bg-primary/5 rounded-lg">
+                <span class="material-symbols-outlined text-primary"
+                  >payments</span
+                >
+              </div>
+            </div>
+            <p
+              class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider"
+            >
+              Recent Giving
+            </p>
+            <h3 class="text-headline-lg font-headline-lg mt-1">
+              {% if recent_giving is not None %}${{ recent_giving|floatformat:2 }}{% else %}—{% endif %}
+            </h3>
+          </div>
+          <!-- Upcoming Events -->
+          <div
+            class="bg-surface-container-lowest p-6 rounded-xl soft-shadow hover:-translate-y-1 transition-transform border border-outline-variant/10"
+          >
+            <div class="flex justify-between items-start mb-4">
+              <div class="p-2 bg-primary/5 rounded-lg">
+                <span class="material-symbols-outlined text-primary"
+                  >calendar_month</span
+                >
+              </div>
+              <span
+                class="text-label-md font-bold text-on-surface-variant bg-secondary-container px-2 py-0.5 rounded-full"
+                >Next 7d</span
+              >
+            </div>
+            <p
+              class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider"
+            >
+              Upcoming Events
+            </p>
+            <h3 class="text-headline-lg font-headline-lg mt-1">{{ total_events }}</h3>
+          </div>
+        </section>
+        <!-- Secondary Layout Grid -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-gutter items-start">
+          <!-- Calendar/Upcoming Widget (2/3 width on desktop) -->
+          <div class="lg:col-span-2 space-y-6">
+            <div class="flex items-center justify-between">
+              <h4
+                class="text-headline-md font-headline-md font-bold text-on-surface flex items-center gap-2"
+              >
+                <span class="material-symbols-outlined text-primary"
+                  >schedule</span
+                >
+                Next 7 Days
+              </h4>
+              <a
+                class="text-label-md font-bold text-primary-container hover:underline"
+                href="{% url 'calandar' %}"
+              >
+                View Calendar
+              </a>
+            </div>
+            <!-- Events List Grid -->
+            <section class="space-y-4">
+              <!-- Header (Desktop Only) -->
+              <div
+                class="hidden md:grid grid-cols-12 px-6 py-2 text-on-surface-variant text-label-md opacity-60"
+              >
+                <div class="col-span-5">Event Details</div>
+                <div class="col-span-3 text-center">Date &amp; Time</div>
+                <div class="col-span-3">Location</div>
+                <div class="col-span-1"></div>
+              </div>
+              <!-- Event Cards -->
+              <div class="space-y-3">
+                {% for ev in activeevents %}
+                <a
+                  class="event-row grid grid-cols-1 md:grid-cols-12 items-center px-4 md:px-6 py-4 bg-white rounded-2xl border border-outline-variant/10 cursor-pointer transition-all card-shadow"
+                  href="{% url 'take_attendance' event_id=ev.id %}"
+                >
+                  <div class="col-span-5 flex items-center gap-4">
+                    <div
+                      class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold"
+                    >
+                      {{ ev.tittle|first }}
+                    </div>
+                    <div>
+                      <h3 class="text-body-lg font-semibold text-on-surface">
+                        {{ ev.tittle }}
+                      </h3>
+                      <p class="text-label-md text-on-surface-variant">
+                        {{ ev.date|date:"M d, Y" }} at {{ ev.starttime }} - {{ ev.endtime }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-span-3 flex justify-center py-2 md:py-0">
+                    <span
+                      class="px-3 py-1 bg-primary-container/10 text-primary font-bold rounded-full text-[11px] uppercase tracking-wider"
+                    >
+                      {{ ev.category }}
+                    </span>
+                  </div>
+                  <div class="col-span-3 text-body-md text-on-surface-variant">
+                    <p class="flex items-center gap-2">
+                      <span class="material-symbols-outlined text-sm">location_on</span>
+                      {{ ev.location }}
+                    </p>
+                  </div>
+                  <div class="col-span-1 flex justify-end">
+                    <span class="material-symbols-outlined text-outline">chevron_right</span>
+                  </div>
+                </a>
+                {% empty %}
+                <p class="text-center py-8 text-on-surface-variant">No events found.</p>
+                {% endfor %}
+              </div>
+            </section>
+          </div>
+
+          <!-- Recent Activity Feed (1/3 width) -->
+          <div class="space-y-6">
+            <div class="flex items-center justify-between">
+              <h4
+                class="text-headline-md font-headline-md font-bold text-on-surface"
+              >
+                Recent Activity
+              </h4>
+            </div>
+            <div
+              class="bg-surface-container-lowest p-6 rounded-2xl soft-shadow border border-outline-variant/10 relative"
+            >
+              <div class="space-y-8">
+                {% for activity in recent_activity %}
+                <div class="relative activity-line flex gap-4">
+                  <div
+                    class="z-10 w-6 h-6 rounded-full bg-primary flex items-center justify-center ring-4 ring-white"
+                  >
+                    <span
+                      class="material-symbols-outlined text-white text-[14px]"
+                      >{{ activity.icon }}</span
+                    >
+                  </div>
+                  <div class="flex-1 -mt-0.5">
+                    <p class="text-body-md leading-relaxed">
+                      {{ activity.description }}
+                    </p>
+                    <span class="text-label-md text-on-surface-variant"
+                      >{{ activity.created_at|naturaltime }}</span
+                    >
+                  </div>
+                </div>
+                {% empty %}
+                <p class="text-body-md text-on-surface-variant text-center py-4">
+                  No recent activity yet.
+                </p>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <!-- Bottom Navigation (Mobile) -->
+    {% include 'partials/mobile_nav.html' %}
+</nav>
+
+    <!-- Contextual FAB (Dashboard Specific) -->
+    <a
+      class="fixed bottom-24 right-6 md:bottom-8 md:right-8 w-14 h-14 bg-primary text-white rounded-2xl shadow-2xl flex items-center justify-center hover:rotate-90 transition-transform z-40"
+      href="{% url 'addmember' %}"
+    >
+      <span class="material-symbols-outlined" style="font-size: 32px">add</span>
+    </a>
+    <script>
+      // Micro-interaction: Header blur adjustment on scroll
+      window.addEventListener("scroll", () => {
+        const header = document.querySelector("header");
+        if (window.scrollY > 20) {
+          header.classList.add("shadow-sm");
+          header.classList.remove("bg-surface/50");
+          header.classList.add("bg-white/90");
+        } else {
+          header.classList.remove("shadow-sm");
+          header.classList.add("bg-surface/50");
+          header.classList.remove("bg-white/90");
+        }
+      });
+
+      // Hover lift effect for cards
+      document.querySelectorAll(".soft-shadow").forEach((card) => {
+        card.addEventListener("mouseenter", () => {
+          card.style.boxShadow = "0px 10px 32px rgba(19, 78, 74, 0.08)";
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.boxShadow = "0px 4px 20px rgba(19, 78, 74, 0.04)";
+        });
+      });
+    </script>
+  </body>
+</html>

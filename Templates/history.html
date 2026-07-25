@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>System History | Steward Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9ff;
+        }
+        .font-headline { font-family: 'Geist', sans-serif; }
+        .font-label { font-family: 'Geist', sans-serif; }
+        
+        /* Custom scrollbar for activity log */
+        .log-container::-webkit-scrollbar { width: 6px; }
+        .log-container::-webkit-scrollbar-track { background: transparent; }
+        .log-container::-webkit-scrollbar-thumb { background: #e3e3de; border-radius: 10px; }
+        
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #134e4a20 0%, #134e4a20 100%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-tint": "#316763",
+                      "secondary-fixed": "#e3e3de",
+                      "on-surface-variant": "#404847",
+                      "on-secondary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-fixed": "#1b1c19",
+                      "on-tertiary-fixed-variant": "#6e3900",
+                      "surface-container-highest": "#d9e3f4",
+                      "on-error": "#ffffff",
+                      "outline-variant": "#bfc8c6",
+                      "on-primary-container": "#87beb8",
+                      "tertiary-fixed": "#ffdcc3",
+                      "on-primary-fixed-variant": "#144f4b",
+                      "on-secondary-fixed-variant": "#464744",
+                      "secondary-container": "#e3e3de",
+                      "inverse-primary": "#9ad1cb",
+                      "on-surface": "#121c28",
+                      "secondary": "#5e5f5b",
+                      "tertiary": "#4c2600",
+                      "surface-dim": "#d1dbec",
+                      "secondary-fixed-dim": "#c7c7c2",
+                      "on-tertiary-container": "#ff9c42",
+                      "on-secondary-container": "#646561",
+                      "error-container": "#ffdad6",
+                      "surface-container": "#e5eeff",
+                      "tertiary-container": "#6d3800",
+                      "surface-container-high": "#dfe9fa",
+                      "on-primary-fixed": "#00201e",
+                      "inverse-on-surface": "#eaf1ff",
+                      "tertiary-fixed-dim": "#ffb77d",
+                      "primary-fixed-dim": "#9ad1cb",
+                      "on-primary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "outline": "#707977",
+                      "background": "#f8f9ff",
+                      "surface": "#f8f9ff",
+                      "on-error-container": "#93000a",
+                      "surface-variant": "#d9e3f4",
+                      "on-tertiary": "#ffffff",
+                      "on-background": "#121c28",
+                      "primary-container": "#134e4a",
+                      "inverse-surface": "#27313e",
+                      "surface-bright": "#f8f9ff",
+                      "primary-fixed": "#b5ede7",
+                      "primary": "#003633",
+                      "surface-container-low": "#eef4ff",
+                      "on-tertiary-fixed": "#2f1500"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sidebar-width": "260px",
+                      "unit": "4px",
+                      "container-padding": "32px",
+                      "gutter": "24px",
+                      "card-gap": "20px"
+              },
+              "fontFamily": {
+                      "mono-sm": ["Geist"],
+                      "headline-md": ["Geist"],
+                      "label-md": ["Geist"],
+                      "body-md": ["Inter"],
+                      "headline-lg-mobile": ["Geist"],
+                      "headline-lg": ["Geist"],
+                      "headline-xl": ["Geist"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "mono-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface">
+<!-- Desktop Navigation Drawer -->
+{% include 'partials/sidebar.html' %}
+<!-- Top AppBar -->
+<header class="fixed top-0 right-0 left-0 md:left-sidebar-width h-16 bg-surface/50 backdrop-blur-md flex justify-between items-center px-container-padding z-40 shadow-sm">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="text-headline-md font-headline-md font-bold text-primary">System History/Notifications</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-surface-container-low px-3 py-1.5 rounded-full border border-outline-variant/30">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none text-body-md focus:ring-0 p-0 w-48" placeholder="Search log..." type="text"/>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-primary/5 rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pt-20 pb-24 md:pb-8 px-4 md:px-container-padding md:ml-sidebar-width min-h-screen">
+<!-- Filters Section -->
+<section class="mb-8">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-5 border border-outline-variant/10">
+<div class="flex flex-col lg:flex-row gap-4 items-end">
+<div class="w-full lg:w-auto flex-1 grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="space-y-1.5">
+<label class="text-label-md font-label-md text-on-surface-variant ml-1">Date Range</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">calendar_today</span>
+<select class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/30 rounded-lg text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none" id="history-date-filter">
+<option value="last_7_days">Last 7 Days</option>
+<option value="last_30_days" selected>Last 30 Days</option>
+<option value="all_time">All Time</option>
+</select>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-label-md font-label-md text-on-surface-variant ml-1">Category</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">category</span>
+<select class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/30 rounded-lg text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none" id="history-category-filter">
+<option value="all">All Categories</option>
+{% for category in activity_categories %}
+<option value="{{ category|lower }}">{{ category }}</option>
+{% endfor %}
+</select>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="text-label-md font-label-md text-on-surface-variant ml-1">User</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">person</span>
+<select class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/30 rounded-lg text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none" id="history-user-filter">
+<option value="all">All Users</option>
+{% for user_name in activity_users %}
+<option value="{{ user_name|lower }}">{{ user_name }}</option>
+{% endfor %}
+</select>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<button class="history-filter-chip px-4 py-2 rounded-full bg-primary text-white text-label-md font-label-md" type="button" data-category="all">All</button>
+{% for category in activity_categories %}
+<button class="history-filter-chip px-4 py-2 rounded-full bg-white border border-outline-variant/30 text-on-surface-variant text-label-md font-label-md hover:border-primary hover:text-primary transition-all" type="button" data-category="{{ category|lower }}">{{ category }}</button>
+{% endfor %}
+</div>
+<button class="w-full lg:w-auto px-6 py-2.5 bg-primary text-white font-label-md text-label-md rounded-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">filter_alt</span>
+                        Apply Filters
+                    </button>
+</div>
+</div>
+</section>
+<!-- Activity Timeline -->
+<div class="relative timeline-line">
+{% regroup activity_logs by created_at.date as day_groups %}
+{% for day_group in day_groups %}
+<div class="mb-10 relative">
+<div class="flex items-center gap-4 mb-6 sticky top-20 z-10 py-2">
+<div class="bg-primary text-white px-4 py-1 rounded-full text-label-md font-label-md shadow-sm">{{ day_group.grouper|date:"M d, Y" }}</div>
+<div class="h-[1px] flex-1 bg-outline-variant/30"></div>
+</div>
+<div class="space-y-gutter ml-10">
+{% for log in day_group.list %}
+<div class="history-entry group flex gap-4 p-5 bg-surface-container-lowest rounded-xl border border-outline-variant/10 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5 relative" data-category="{{ log.get_activity_type_display|lower }}" data-user="{{ log.actor|lower }}" data-date="{{ log.created_at|date:'Y-m-d' }}">
+<div class="absolute -left-12 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-primary ring-4 ring-background border border-white"></div>
+<div class="flex-shrink-0">
+<div class="w-12 h-12 rounded-xl bg-tertiary-container/10 flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined">{{ log.icon|default:'info' }}</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+<h3 class="text-body-lg font-bold text-on-surface">{{ log.get_activity_type_display }}</h3>
+<span class="text-mono-sm text-on-surface-variant bg-secondary-fixed/30 px-2 py-0.5 rounded">{{ log.created_at|date:"g:i A" }}</span>
+</div>
+<p class="text-body-md text-on-surface-variant mb-3">{{ log.description }}</p>
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-secondary-fixed flex items-center justify-center text-[10px] font-bold">{{ log.actor|default:user.username|slice:":2"|upper }}</div>
+<span class="text-label-md font-label-md text-on-surface">{{ log.actor|default:user.get_full_name|default:user.username }}</span>
+<span class="mx-2 text-outline-variant">•</span>
+<span class="text-label-md font-label-md text-on-primary-fixed-variant bg-primary-fixed/30 px-2 py-0.5 rounded-full">{{ log.get_activity_type_display }}</span>
+</div>
+</div>
+</div>
+{% endfor %}
+</div>
+</div>
+{% endfor %}
+<!-- View More Button -->
+<div class="ml-10 flex justify-center py-4">
+<button class="px-8 py-3 bg-secondary-container text-on-secondary-container font-label-md text-label-md rounded-full hover:bg-secondary-fixed transition-colors shadow-sm">
+                    Load More History
+                </button>
+</div>
+</div>
+</main>
+<!-- Mobile Bottom NavBar -->
+{% include 'partials/mobile_nav.html' %}
+<script>
+        const filterChips = document.querySelectorAll('.history-filter-chip');
+        const entries = document.querySelectorAll('.history-entry');
+        const dateFilter = document.getElementById('history-date-filter');
+        const categoryFilter = document.getElementById('history-category-filter');
+        const userFilter = document.getElementById('history-user-filter');
+        const searchInput = document.querySelector('input[placeholder="Search log..."]');
+        let activeCategory = 'all';
+        let activeDate = 'last_30_days';
+        let activeUser = 'all';
+        let activeQuery = '';
+
+        function applyFilters() {
+            const today = new Date();
+            const cutoff = new Date();
+            if (activeDate === 'last_7_days') {
+                cutoff.setDate(today.getDate() - 7);
+            } else if (activeDate === 'last_30_days') {
+                cutoff.setDate(today.getDate() - 30);
+            } else {
+                cutoff.setFullYear(1970, 0, 1);
+            }
+
+            entries.forEach((entry) => {
+                const entryDate = new Date(`${entry.dataset.date}T00:00:00`);
+                const matchesDate = entryDate >= cutoff;
+                const matchesCategory = activeCategory === 'all' || entry.dataset.category === activeCategory;
+                const matchesUser = activeUser === 'all' || entry.dataset.user === activeUser;
+                const haystack = `${entry.textContent || ''}`.toLowerCase();
+                const matchesQuery = !activeQuery || haystack.includes(activeQuery);
+                const matches = matchesDate && matchesCategory && matchesUser && matchesQuery;
+                entry.style.display = matches ? '' : 'none';
+            });
+        }
+
+        filterChips.forEach((chip) => {
+            chip.addEventListener('click', () => {
+                filterChips.forEach((item) => {
+                    item.classList.remove('bg-primary', 'text-white');
+                    item.classList.add('bg-white', 'border', 'border-outline-variant/30', 'text-on-surface-variant');
+                });
+                chip.classList.remove('bg-white', 'border', 'border-outline-variant/30', 'text-on-surface-variant');
+                chip.classList.add('bg-primary', 'text-white');
+                activeCategory = chip.dataset.category || 'all';
+                applyFilters();
+            });
+        });
+
+        dateFilter?.addEventListener('change', (event) => {
+            activeDate = event.target.value;
+            applyFilters();
+        });
+
+        categoryFilter?.addEventListener('change', (event) => {
+            activeCategory = event.target.value || 'all';
+            filterChips.forEach((item) => {
+                item.classList.remove('bg-primary', 'text-white');
+                item.classList.add('bg-white', 'border', 'border-outline-variant/30', 'text-on-surface-variant');
+            });
+            const matchingChip = document.querySelector(`.history-filter-chip[data-category="${activeCategory}"]`);
+            if (matchingChip) {
+                matchingChip.classList.remove('bg-white', 'border', 'border-outline-variant/30', 'text-on-surface-variant');
+                matchingChip.classList.add('bg-primary', 'text-white');
+            }
+            applyFilters();
+        });
+
+        userFilter?.addEventListener('change', (event) => {
+            activeUser = event.target.value || 'all';
+            applyFilters();
+        });
+
+        searchInput?.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20', 'border-primary');
+        });
+        searchInput?.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20', 'border-primary');
+        });
+        searchInput?.addEventListener('input', (event) => {
+            activeQuery = event.target.value.trim().toLowerCase();
+            applyFilters();
+        });
+        applyFilters();
+    </script>
+</body></html>

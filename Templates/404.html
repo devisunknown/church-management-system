@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Page Not Found | Sanctuary Admin</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Geist & Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#4c2600",
+                    "on-secondary": "#ffffff",
+                    "surface": "#f8f9ff",
+                    "secondary-fixed": "#e3e3de",
+                    "surface-container-low": "#eef4ff",
+                    "primary-fixed": "#b5ede7",
+                    "tertiary-fixed": "#ffdcc3",
+                    "surface-dim": "#d1dbec",
+                    "primary": "#003633",
+                    "surface-tint": "#316763",
+                    "on-tertiary": "#ffffff",
+                    "background": "#f8f9ff",
+                    "secondary-container": "#e3e3de",
+                    "on-surface": "#121c28",
+                    "on-secondary-fixed": "#1b1c19",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#e5eeff",
+                    "on-primary-container": "#87beb8",
+                    "tertiary-fixed-dim": "#ffb77d",
+                    "outline-variant": "#bfc8c6",
+                    "tertiary-container": "#6d3800",
+                    "primary-fixed-dim": "#9ad1cb",
+                    "on-surface-variant": "#404847",
+                    "on-primary-fixed-variant": "#144f4b",
+                    "on-tertiary-fixed-variant": "#6e3900",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#c7c7c2",
+                    "secondary": "#5e5f5b",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-container": "#ff9c42",
+                    "outline": "#707977",
+                    "on-secondary-container": "#646561",
+                    "inverse-surface": "#27313e",
+                    "inverse-primary": "#9ad1cb",
+                    "surface-bright": "#f8f9ff",
+                    "on-tertiary-fixed": "#2f1500",
+                    "on-background": "#121c28",
+                    "surface-container-high": "#dfe9fa",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#00201e",
+                    "primary-container": "#134e4a",
+                    "surface-variant": "#d9e3f4",
+                    "on-secondary-fixed-variant": "#464744",
+                    "inverse-on-surface": "#eaf1ff",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#d9e3f4",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "sidebar-width": "260px",
+                    "gutter": "24px",
+                    "container-padding": "32px",
+                    "card-gap": "20px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Geist"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Geist"],
+                    "headline-md": ["Geist"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Geist"],
+                    "mono-sm": ["Geist"],
+                    "headline-xl": ["Geist"]
+            },
+            "fontSize": {
+                    "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "mono-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #FDFCF7; /* Level 0 Background per Style Guidance */
+            color: #121C28;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .card-shadow {
+            box-shadow: 0px 4px 20px rgba(19, 78, 74, 0.04);
+        }
+        /* Micro-interaction for buttons */
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stray-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col font-body-md overflow-x-hidden">
+<!-- TopAppBar - Dashboard Fallback (Shared Component Logic) -->
+<header class="flex justify-between items-center w-full px-container-padding py-unit h-16 bg-surface/50 backdrop-blur-md shadow-sm fixed top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer">menu</span>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">Dashboard</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer">notifications</span>
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a friendly church administrator, soft natural lighting, warm cream background, high-end SaaS profile style, minimalist and clean aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt-0i4A08TfiZutUQqMKQL43S6by96g3L6Kz1pxHFPsvi2ehHj3p_k2xkjfppPtL4TGnmhyDEE25s7COlxuMJw1iw-2WSR39bJ-bO6kaYvjL2xbMmwwZCvPPGGr_mz1DOYiuhK7Uh4FvTcL_bI5nI7B3AkG4Kxr3REOwRv6H3fx2Q1aGtNiqlqy_WXQJl0ePc-gNTbi6crfR0WBhol44KloUmMI8cNRkdlbDiiCINRdxTEIf2_dGJuYgHqcNZBPrvwLsSvT4lPhc0"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area (404 Focus) -->
+<main class="flex-grow flex items-center justify-center px-container-padding pt-24 pb-16">
+<div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 items-center gap-gutter">
+<!-- Illustration Section -->
+<div class="flex justify-center items-center order-2 md:order-1 relative">
+<!-- Decorative element -->
+<div class="absolute -z-10 w-64 h-64 bg-primary-fixed/30 blur-3xl rounded-full"></div>
+<div class="stray-animation w-full max-w-[320px] md:max-w-[400px]">
+<img class="w-full drop-shadow-xl" data-alt="A warm, charming illustration of a single fluffy white sheep looking slightly confused in a serene, stylized field. The background features soft watercolor washes of deep teal and cream. The style is professional yet communal and gentle, avoiding corporate coldness, with clean organic lines and a minimalist ministry aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_3T3gvYD4ZN-dWL27CZeBF-T5z72-aJFZw55Y7BXIHWlHpvvyo2aX3D4DGBUwYDRPwHQthUueYgmegctAL1czBgIE67lr68-MfmoWuL57zz9UjOAlSy74bmqXVK7WefIsLNb6JwMrKZyOij3q2do9H04TOZz-L0cGbUMCrV_yEiJwFXpCmfvV1--KbwcAFsThVu_atMMXvND8fghzwvF_jF1IAPVhTcs832Anjm04A0LeOTpdltX-BsnPiau64HHP5qCmMHN7kyQ"/>
+</div>
+</div>
+<!-- Content Section -->
+<div class="order-1 md:order-2 flex flex-col items-center md:items-start text-center md:text-left">
+<div class="inline-flex items-center px-3 py-1 bg-tertiary-fixed text-tertiary rounded-full font-label-md text-label-md mb-6">
+<span class="material-symbols-outlined text-sm mr-2" style="font-variation-settings: 'FILL' 1;">error</span>
+                    ERROR 404
+                </div>
+<h2 class="font-headline-xl text-headline-xl text-primary mb-4 leading-tight">
+                    This sheep has wandered off.
+                </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-md">
+                    The page you are looking for doesn't exist or has been moved to a different wing of the Sanctuary. Let's get you back to where you belong.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+<!-- Primary Button: Return to Dashboard -->
+<a class="btn-hover inline-flex items-center justify-center px-8 py-3 bg-primary text-on-primary rounded-xl font-headline-md text-body-md transition-all shadow-md group" href="{% url 'dashboard' %}">
+<span class="material-symbols-outlined mr-2 group-hover:translate-x-[-4px] transition-transform">dashboard</span>
+                        Return to Dashboard
+                    </a>
+<!-- Secondary Button: Contact Support -->
+<a class="btn-hover inline-flex items-center justify-center px-8 py-3 bg-secondary-container/50 border border-primary/10 text-primary rounded-xl font-headline-md text-body-md transition-all" href="#">
+<span class="material-symbols-outlined mr-2">help_outline</span>
+                        Contact Support
+                    </a>
+</div>
+<!-- Subtle Search Fallback -->
+<div class="mt-12 pt-8 border-t border-outline-variant/30 w-full">
+<p class="font-label-md text-label-md text-outline uppercase tracking-widest mb-4">Or try searching</p>
+<div class="relative w-full max-w-sm">
+<input class="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant/50 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-body-md" placeholder="Search members, events, or giving..." type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Subtle Footer Branding -->
+<footer class="w-full py-8 px-container-padding flex justify-between items-center opacity-50">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-primary rounded-full"></div>
+<span class="font-label-md text-label-md text-primary font-bold">SANCTUARY ADMIN</span>
+</div>
+<p class="font-label-md text-label-md">© 2024 Stewardship Solutions</p>
+</footer>
+<!-- Interactive Layer: Hover Effects and Ripple Simulation -->
+<script>
+        document.querySelectorAll('.btn-hover').forEach(button => {
+            button.addEventListener('mousedown', function() {
+                this.style.transform = 'scale(0.96)';
+            });
+            button.addEventListener('mouseup', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0px)';
+            });
+        });
+
+        // Simple parallax effect for illustration background
+        document.addEventListener('mousemove', (e) => {
+            const blob = document.querySelector('.bg-primary-fixed\\/30');
+            const x = (window.innerWidth - e.pageX * 2) / 100;
+            const y = (window.innerHeight - e.pageY * 2) / 100;
+            blob.style.transform = `translateX(${x}px) translateY(${y}px)`;
+        });
+    </script>
+</body></html>

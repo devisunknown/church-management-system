@@ -1,0 +1,466 @@
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Events | Steward CMS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#e3e3de",
+              "on-secondary-container": "#646561",
+              "primary-container": "#134e4a",
+              "surface-bright": "#f8f9ff",
+              "tertiary-fixed-dim": "#ffb77d",
+              "outline-variant": "#bfc8c6",
+              "surface-dim": "#d1dbec",
+              "on-tertiary-fixed-variant": "#6e3900",
+              "on-secondary-fixed": "#1b1c19",
+              "on-surface": "#121c28",
+              error: "#ba1a1a",
+              "surface-container-low": "$eef4ff",
+              background: "$f8f9ff",
+              outline: "$707977",
+              "on-secondary-fixed-variant": "$464744",
+              "inverse-on-surface": "#eaf1ff",
+              "error-container": "#ffdad6",
+              surface: "$f8f9ff",
+              "on-tertiary-container": "$ff9c42",
+              "on-primary-fixed": "$00201e",
+              "tertiary-fixed": "$ffdcc3",
+              tertiary: "$4c2600",
+              "on-primary-container": "$87beb8",
+              secondary: "$5e5f5b",
+              "on-tertiary": "$ffffff",
+              "on-tertiary-fixed": "$2f1500",
+              "on-primary-fixed-variant": "$144f4b",
+              "primary-fixed": "$b5ede7",
+              "surface-container-highest": "$d9e3f4",
+              "surface-container": "$e5eeff",
+              "tertiary-container": "$6d3800",
+              "on-primary": "$ffffff",
+              "on-surface-variant": "$404847",
+              "inverse-surface": "$27313e",
+              "on-error": "$ffffff",
+              "secondary-fixed-dim": "$c7c7c2",
+              "surface-container-high": "$dfe9fa",
+              "on-error-container": "$93000a",
+              "surface-variant": "$d9e3f4",
+              "surface-tint": "$316763",
+              "inverse-primary": "$9ad1cb",
+              "primary-fixed-dim": "$9ad1cb",
+              "on-secondary": "$ffffff",
+              primary: "$003633",
+              "secondary-fixed": "$e3e3de",
+              "on-background": "$121c28",
+              "surface-container-lowest": "$ffffff",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              "card-gap": "20px",
+              "container-padding": "32px",
+              gutter: "24px",
+              unit: "4px",
+              "sidebar-width": "260px",
+            },
+            fontFamily: {
+              "label-md": ["Geist"],
+              "mono-sm": ["Geist"],
+              "headline-lg": ["Geist"],
+              "headline-xl": ["Geist"],
+              "headline-md": ["Geist"],
+              "body-lg": ["Inter"],
+              "headline-lg-mobile": ["Geist"],
+              "body-md": ["Inter"],
+            },
+            fontSize: {
+              "label-md": [
+                "12px",
+                {
+                  lineHeight: "16px",
+                  letterSpacing: "0.05em",
+                  fontWeight: "500",
+                },
+              ],
+              "mono-sm": ["13px", { lineHeight: "18px", fontWeight: "400" }],
+              "headline-lg": [
+                "30px",
+                {
+                  lineHeight: "36px",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-xl": [
+                "40px",
+                {
+                  lineHeight: "48px",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-md": [
+                "20px",
+                { lineHeight: "28px", fontWeight: "500" },
+              ],
+              "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+              "headline-lg-mobile": [
+                "24px",
+                { lineHeight: "32px", fontWeight: "600" },
+              ],
+              "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: #fdfcf7; /* Level 0 Background per Style Guidance */
+        font-family: "Inter", sans-serif;
+        color: #121c28;
+      }
+      .card-shadow {
+        box-shadow: 0px 4px 20px rgba(19, 78, 74, 0.04);
+      }
+      .sidebar-active {
+        border-right: 4px solid #003633;
+        background-color: rgba(0, 54, 51, 0.05);
+      }
+      .member-row:hover {
+        background-color: #fdfaf0; /* Warm cream hover */
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 20px rgba(19, 78, 74, 0.08);
+      }
+      .drawer-overlay {
+        background-color: rgba(18, 28, 40, 0.4);
+        backdrop-filter: blur(4px);
+      }
+      .drawer-content {
+        box-shadow: -10px 0px 32px rgba(0, 0, 0, 0.08);
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body class="flex min-h-screen">
+    <!-- NavigationDrawer (Web Shell) -->
+    <!-- Desktop Sidebar (NavigationDrawer) -->
+{% include 'partials/sidebar.html' %}
+<!-- Main Content Canvas -->
+    <main class="flex-1 flex flex-col min-w-0 md:ml-sidebar-width">
+      <!-- TopAppBar (Mobile & Contextual Header) -->
+      <header
+        class="flex justify-between items-center w-full px-container-padding py-4 h-16 bg-surface/50 backdrop-blur-md sticky top-0 z-30">
+      
+        <div class="flex items-center gap-4">
+          <button class="md:hidden p-2 text-primary">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+          <h1 class="text-headline-md font-headline-md font-bold text-primary">
+            Events
+          </h1>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            class="p-2 text-on-surface-variant hover:bg-primary/5 transition-colors rounded-full"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+         
+          <a
+            class="flex items-center gap-2 bg-tertiary text-on-tertiary px-4 py-2 rounded-full text-label-md font-label-md hover:scale-95 transition-transform"
+            href="{% url 'addevent' %}"
+          >
+            <span class="material-symbols-outlined text-[18px]">add</span>
+            <span class="hidden sm:inline">Add Event</span>
+        </a>
+        </div>
+      </header>
+      <div class="p-container-padding max-w-6xl mx-auto w-full pb-32">
+        <!-- Search and Filters Section -->
+        <section class="mb-8">
+          <div class="flex flex-col md:flex-row gap-4">
+            <div class="relative flex-1">
+              <span
+                class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline"
+                >search</span
+              >
+              <input
+                class="w-full pl-12 pr-4 py-3 bg-white border border-outline-variant/30 rounded-xl focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-body-md outline-none card-shadow"
+                placeholder="Search events by name, date, or location..."
+                type="text"
+              />
+            </div>
+            <button
+              class="flex items-center justify-center gap-2 px-6 py-3 bg-white border border-outline-variant/30 rounded-xl text-label-md font-label-md text-on-surface-variant card-shadow hover:bg-secondary-fixed/20 transition-all"
+            >
+              <span class="material-symbols-outlined">filter_list</span>
+              Filters
+            </button>
+          </div>
+          <!-- Quick Filter Tags -->
+          <div
+            class="flex flex-wrap gap-2 mt-4 overflow-x-auto pb-2 no-scrollbar"
+          >
+            <span
+              class="px-4 py-1.5 bg-primary text-on-primary rounded-full text-label-md cursor-pointer"
+              >All Events</span
+            >
+            <span
+              class="px-4 py-1.5 bg-white border border-outline-variant/30 text-on-surface-variant rounded-full text-label-md hover:border-primary transition-all cursor-pointer"
+              >Upcoming</span
+            >
+            <span
+              class="px-4 py-1.5 bg-white border border-outline-variant/30 text-on-surface-variant rounded-full text-label-md hover:border-primary transition-all cursor-pointer"
+              >Past</span
+            >
+          </div>
+        </section>
+        <!-- Events List Grid -->
+        <section class="space-y-4">
+          <!-- Header (Desktop Only) -->
+          <div
+            class="hidden md:grid grid-cols-12 px-6 py-2 text-on-surface-variant text-label-md opacity-60"
+          >
+            <div class="col-span-5">Event Details</div>
+            <div class="col-span-3 text-center">Date & Time</div>
+            <div class="col-span-3">Location</div>
+            <div class="col-span-1"></div>
+          </div>
+          <!-- Event Cards -->
+          <div class="space-y-3">
+            {% for event in events %}
+            <!-- Event Row -->
+            <div
+              class="event-row grid grid-cols-1 md:grid-cols-12 items-center px-4 md:px-6 py-4 bg-white rounded-2xl border border-outline-variant/10 cursor-pointer transition-all card-shadow"
+              onclick="openEventDetails('{{ event.tittle }}')"
+            >
+              <div class="col-span-5 flex items-center gap-4">
+                <div
+                  class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold"
+                >
+                  {{ event.tittle|first }}
+                </div>
+                <div>
+                  <h3 class="text-body-lg font-semibold text-on-surface">
+                    {{ event.tittle }}
+                  </h3>
+                  <p class="text-label-md text-on-surface-variant">
+                    {{ event.date|date:"M d, Y" }} at {{ event.starttime }} - {{ event.endtime }}
+                  </p>
+                </div>
+              </div>
+              <div class="col-span-3 flex justify-center py-2 md:py-0">
+                <span
+                  class="px-3 py-1 bg-primary-container/10 text-primary font-bold rounded-full text-[11px] uppercase tracking-wider"
+                >
+                  {{ event.category }}
+                </span>
+              </div>
+              <div class="col-span-3 text-body-md text-on-surface-variant">
+                <p class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-sm">location_on</span>
+                  {{ event.location }}
+                </p>
+              </div>
+              <div class="col-span-1 flex justify-end">
+                <span class="material-symbols-outlined text-outline">chevron_right</span>
+              </div>
+            </div>
+            {% empty %}
+            <p class="text-center py-8">No events found.</p>
+            {% endfor %}
+          </div>
+        </section>
+      </div>
+     
+    <!-- Bottom Navigation (Mobile) -->
+{% include 'partials/mobile_nav.html' %}
+</main>
+    <!-- Side Drawer (Detail Panel) -->
+    <div
+      class="fixed inset-0 z-[100] pointer-events-none transition-all duration-300"
+      id="event-drawer"
+    >
+      <!-- Backdrop -->
+      <div
+        class="absolute inset-0 drawer-overlay opacity-0 transition-opacity duration-300"
+        id="drawer-backdrop"
+        onclick="closeEventDetails()"
+      ></div>
+      <!-- Content -->
+      <div
+        class="absolute right-0 top-0 h-full w-full max-w-md bg-white drawer-content translate-x-full transition-transform duration-300 ease-out flex flex-col"
+        id="drawer-panel"
+      >
+        <div
+          class="p-6 flex items-center justify-between border-b border-outline-variant/10"
+        >
+          <h2 class="text-headline-md font-headline-md font-bold text-primary">
+            Event Details
+          </h2>
+          <button
+            class="p-2 hover:bg-primary/5 rounded-full"
+            onclick="closeEventDetails()"
+          >
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-8">
+          <!-- Quick Summary Event Header -->
+          <div class="flex flex-col items-center text-center mb-10">
+            <div
+              class="w-24 h-24 rounded-full bg-primary-fixed mb-4 ring-4 ring-primary-fixed/30 flex items-center justify-center text-2xl font-bold text-primary"
+              id="drawer-avatar"
+            >
+              EV
+            </div>
+            <h3
+              class="text-headline-lg font-headline-lg text-on-surface"
+              id="drawer-name"
+            >
+              Event Title
+            </h3>
+            <p class="text-label-md text-on-surface-variant mb-4">
+              event@example.com
+            </p>
+            <span
+              class="px-4 py-1.5 bg-primary-container text-on-primary-container font-bold rounded-full text-label-md"
+              id="drawer-status"
+            >
+              UPCOMING
+            </span>
+          </div>
+          <!-- Event Details -->
+          <div class="space-y-6">
+            <div>
+              <h4
+                class="text-label-md font-bold text-on-surface uppercase tracking-widest mb-3 border-b pb-1 border-outline-variant/30"
+              >
+                Description
+              </h4>
+              <p class="text-body-md text-on-surface-variant">
+                {{event.description}}
+              </p>
+            </div>
+            <div>
+              <h4
+                class="text-label-md font-bold text-on-surface uppercase tracking-widest mb-3 border-b pb-1 border-outline-variant/30"
+              >
+                Timing
+              </h4>
+              <p class="flex items-center gap-2 text-body-md">
+                <span class="material-symbols-outlined text-primary text-[20px]">schedule</span>
+                <span>Date: Jan 1, 2026</span>
+              </p>
+              <p class="flex items-center gap-2 text-body-md">
+                <span class="material-symbols-outlined text-primary text-[20px]">access_time</span>
+                <span>Time: 10:00 AM - 12:00 PM</span>
+              </p>
+            </div>
+            <div>
+              <h4
+                class="text-label-md font-bold text-on-surface uppercase tracking-widest mb-3 border-b pb-1 border-outline-variant/30"
+              >
+                Location
+              </h4>
+              <p class="flex items-center gap-2 text-body-md">
+                <span class="material-symbols-outlined text-primary text-[20px]">place</span>
+                <span>Main Sanctuary</span>
+              </p>
+            </div>
+          </div>
+          <div class="mt-12 flex gap-3">
+            <button
+              class="flex-1 py-3 bg-primary text-on-primary rounded-xl font-bold text-label-md hover:scale-[0.98] transition-transform"
+            >
+              Edit Event
+            </button>
+            <button
+              class="px-4 py-3 bg-white border border-outline text-on-surface rounded-xl hover:bg-secondary-fixed/20 transition-all"
+            >
+              <span class="material-symbols-outioned">more_vert</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function openEventDetails(name) {
+        const drawer = document.getElementById("event-drawer");
+        const panel = document.getElementById("drawer-panel");
+        const backdrop = document.getElementById("drawer-backdrop");
+        const nameEl = document.getElementById("drawer-name");
+        const avatarEl = document.getElementById("drawer-avatar");
+        const statusEl = document.getElementById("drawer-status");
+
+        // Update drawer content based on click
+        nameEl.innerText = name;
+        const initials = name
+          .split(" ")
+          .map((n) => n[0])
+          .join("");
+        avatarEl.innerText = initials;
+
+        // Simple status mapping for demo
+        if (name.includes("Meeting")) {
+          statusEl.innerText = "UPCOMING";
+          statusEl.className =
+            "px-4 py-1.5 bg-surface-container-high text-on-primary-fixed-variant font-bold rounded-full text-label-md";
+        } else if (name.includes("Past")) {
+          statusEl.innerText = "PAST";
+          statusEl.className =
+            "px-4 py-1.5 bg-tertiary-fixed text-tertiary font-bold rounded-full text-label-md";
+        } else {
+          statusEl.innerText = "UPCOMING";
+          statusEl.className =
+            "px-4 py-1.5 bg-primary-container text-on-primary-container font-bold rounded-full text-label-md";
+        }
+
+        // Animation
+        drawer.classList.remove("pointer-events-none");
+        backdrop.classList.add("opacity-100");
+        panel.classList.remove("translate-x-full");
+      }
+
+      function closeEventDetails() {
+        const drawer = document.getElementById("event-drawer");
+        const panel = document.getElementById("drawer-panel");
+        const backdrop = document.getElementById("drawer-backdrop");
+
+        backdrop.classList.remove("opacity-100");
+        panel.classList.add("translate-x-full");
+
+        setTimeout(() => {
+          drawer.classList.add("pointer-events-none");
+        }, 300);
+      }
+    </script>
+  </body>
+</html>
