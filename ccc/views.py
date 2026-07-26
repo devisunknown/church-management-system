@@ -132,14 +132,8 @@ def addmember(request):
         except IntegrityError:
             return render(request, 'addmember.html', {
                 'error': 'A member with this phone number already exists.',
-                'firstname': firstname,
-                'lastname': lastname,
                 'email': email,
-                'phonenumber': phonenumber,
-                'residence': residence,
-                'address': address,
-                'scdgroup': scdgroup,
-                'roles':roles,
+                'phonenumber': phonenumber, 
             })
 
         _log_activity(
