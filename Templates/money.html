@@ -69,40 +69,41 @@
         body { min-height: max(884px, 100dvh); }
     </style>
 </head>
-<body class="text-on-surface">
-{% include 'partials/sidebar.html' %}
-<header class="md:hidden flex justify-between items-center w-full px-container-padding py-unit h-16 fixed top-0 z-40 bg-surface/50 backdrop-blur-md shadow-sm">
-<button class="text-primary" type="button" id="money-mobile-nav-open"><span class="material-symbols-outlined" data-icon="menu">menu</span></button>
-<h1 class="text-headline-md font-headline-md font-bold text-primary">Giving</h1>
-<button class="text-primary"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
-</header>
-<div class="fixed inset-0 z-50 pointer-events-none md:hidden" id="money-mobile-nav-drawer">
-  <div class="absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-200" id="money-mobile-nav-backdrop"></div>
-  <aside class="absolute left-0 top-0 h-full w-72 bg-surface-container-lowest border-r border-outline-variant/20 shadow-2xl -translate-x-full transition-transform duration-200 flex flex-col p-6 gap-4" id="money-mobile-nav-panel">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary">
-          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">temple_buddhist</span>
+<body class="bg-surface-container-lowest min-h-screen text-on-surface">
+    <!-- Desktop Sidebar -->
+    {% include 'partials/sidebar.html' %}
+<!-- Main Content Canvas -->
+    <main class="md:ml-sidebar-width min-h-screen pb-24 md:pb-8">
+      <!-- Top App Bar -->
+      <header
+        class="flex justify-between items-center w-full px-6 md:px-container-padding py-4 h-16 bg-surface/50 backdrop-blur-md sticky top-0 z-30"
+      >
+        <div class="flex items-center gap-4">
+          <button class="md:hidden text-primary">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+          <h2 class="text-headline-md font-headline-md font-bold text-primary">
+            Dashboard
+          </h2>
         </div>
-        <div>
-          <p class="text-label-md font-bold text-primary">Steward</p>
-          <p class="text-[10px] uppercase tracking-wider text-on-surface-variant">Giving</p>
+        <div class="flex items-center gap-4">
+          <button
+            class="p-2 text-on-surface-variant hover:bg-primary/5 rounded-full transition-colors"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <div class="h-8 w-px bg-outline-variant/50 hidden md:block"></div>
+          <a
+            class="flex items-center gap-2 bg-tertiary-fixed text-on-tertiary-fixed px-4 py-2 rounded-full text-label-md font-bold hover:scale-105 active:scale-95 transition-all"
+            href="{% url 'addmember' %}"
+          >
+            <span class="material-symbols-outlined" style="font-size: 18px"
+              >add</span
+            >
+            <span>New Record</span>
+          </a>
         </div>
-      </div>
-      <button class="p-2 rounded-full hover:bg-secondary-fixed/40" type="button" id="money-mobile-nav-close">
-        <span class="material-symbols-outlined text-primary">close</span>
-      </button>
-    </div>
-    <nav class="space-y-2">
-      <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-fixed/30" href="{% url 'dashboard' %}"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
-      <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-fixed/30" href="{% url 'members' %}"><span class="material-symbols-outlined">group</span>Members</a>
-      <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-fixed/30" href="{% url 'attendance' %}"><span class="material-symbols-outlined">fact_check</span>Attendance</a>
-      <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary bg-primary/5 font-bold" href="{% url 'money' %}"><span class="material-symbols-outlined">payments</span>Giving</a>
-      <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-fixed/30" href="{% url 'events' %}"><span class="material-symbols-outlined">event</span>Events</a>
-      <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-fixed/30" href="{% url 'history' %}"><span class="material-symbols-outlined">history</span>History</a>
-    </nav>
-  </aside>
-</div>
+      </header>
 
 <main class="md:ml-sidebar-width pt-20 md:pt-8 px-4 md:px-10 pb-32">
 <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
