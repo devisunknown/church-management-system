@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Record Giving - Sanctuary Admin</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
@@ -63,27 +61,16 @@
                         "on-secondary-fixed-variant": "#464744"
                     },
                     "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
+                        "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"
                     },
                     "spacing": {
-                        "unit": "4px",
-                        "gutter": "24px",
-                        "container-padding": "32px",
-                        "sidebar-width": "260px",
-                        "card-gap": "20px"
+                        "unit": "4px", "gutter": "24px", "container-padding": "32px",
+                        "sidebar-width": "260px", "card-gap": "20px"
                     },
                     "fontFamily": {
-                        "headline-md": ["Geist"],
-                        "body-lg": ["Inter"],
-                        "label-md": ["Geist"],
-                        "headline-xl": ["Geist"],
-                        "body-md": ["Inter"],
-                        "mono-sm": ["Geist"],
-                        "headline-lg-mobile": ["Geist"],
-                        "headline-lg": ["Geist"]
+                        "headline-md": ["Geist"], "body-lg": ["Inter"], "label-md": ["Geist"],
+                        "headline-xl": ["Geist"], "body-md": ["Inter"], "mono-sm": ["Geist"],
+                        "headline-lg-mobile": ["Geist"], "headline-lg": ["Geist"]
                     },
                     "fontSize": {
                         "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
@@ -95,39 +82,19 @@
                         "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
                         "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
                     }
-                },
-            },
+                }
+            }
         }
     </script>
 <style>
-        body {
-            background-color: #FDFCF7; /* Level 0 Background per Style Guidance */
-            color: #121C28;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .soft-shadow {
-            box-shadow: 0px 4px 20px rgba(19, 78, 74, 0.04);
-        }
-        .warm-glass {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-        }
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(0, 54, 51, 0.08);
-        }
+        body { background-color: #FDFCF7; color: #121C28; -webkit-tap-highlight-color: transparent; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .soft-shadow { box-shadow: 0px 4px 20px rgba(19, 78, 74, 0.04); }
+        input:focus, select:focus, textarea:focus { outline: none; box-shadow: 0 0 0 4px rgba(0, 54, 51, 0.08); }
+        body { min-height: max(884px, 100dvh); }
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
+</head>
 <body class="antialiased">
-<!-- Top Navigation Shell (Suppressed context check: This is a task-focused sub-page, but user requested TopAppBar for consistency. Per prompt, we include it but with 'Back' action logic) -->
 <header class="fixed top-0 left-0 w-full z-50 bg-surface/50 backdrop-blur-md shadow-sm h-16 flex justify-between items-center px-4">
 <div class="flex items-center gap-3">
 <a class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-primary/5 transition-colors active:scale-95 duration-100" href="{% url 'money' %}">
@@ -144,7 +111,7 @@
 <main class="pt-20 pb-32 px-4 max-w-lg mx-auto">
 <form class="space-y-6" id="giving-form" method="post" action="{% url 'addmoney' %}">
 {% csrf_token %}
-<!-- Amount Section (Bento-style card) -->
+
 <div class="bg-surface-container-lowest soft-shadow rounded-xl p-6 border border-outline-variant/10">
 <label class="block text-label-md font-label-md text-on-surface-variant mb-2">AMOUNT</label>
 <div class="relative flex items-center">
@@ -152,17 +119,18 @@
 <input class="w-full bg-transparent border-none p-0 pl-8 text-headline-xl font-headline-xl text-primary placeholder:text-primary/10 focus:ring-0" name="amount" placeholder="0.00" required step="0.01" type="number"/>
 </div>
 </div>
-<!-- Transaction Details -->
+
 <div class="bg-surface-container-lowest soft-shadow rounded-xl p-6 space-y-5 border border-outline-variant/10">
-<!-- Donor Search -->
-<div>
+
+<div class="relative">
 <label class="block text-label-md font-label-md text-on-surface-variant mb-2">DONOR</label>
 <div class="relative">
 <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">search</span>
-<input class="w-full pl-12 pr-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-on-surface placeholder:text-outline focus:border-primary transition-all" name="donor_name" placeholder="Search member or guest..." type="text"/>
+<input autocomplete="off" class="w-full pl-12 pr-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-on-surface placeholder:text-outline focus:border-primary transition-all" id="donor-search-input" name="donor_name" placeholder="Search member or guest..." type="text"/>
 </div>
+<div class="absolute z-20 left-0 right-0 mt-1 bg-white border border-outline-variant rounded-lg shadow-lg max-h-56 overflow-y-auto hidden" id="donor-results"></div>
 </div>
-<!-- Fund Selection -->
+
 <div class="grid grid-cols-1 gap-4">
 <div>
 <label class="block text-label-md font-label-md text-on-surface-variant mb-2">FUND</label>
@@ -174,7 +142,7 @@
 </select>
 </div>
 </div>
-<!-- Date & Method Grid -->
+
 <div class="grid grid-cols-2 gap-4">
 <div>
 <label class="block text-label-md font-label-md text-on-surface-variant mb-2">DATE</label>
@@ -191,9 +159,8 @@
 </div>
 </div>
 </div>
-<!-- Additional Options -->
+
 <div class="bg-surface-container-lowest soft-shadow rounded-xl p-6 border border-outline-variant/10 space-y-6">
-<!-- Tax Deductible Toggle -->
 <div class="flex items-center justify-between">
 <div>
 <p class="font-body-md font-semibold text-on-surface">Tax Deductible</p>
@@ -204,22 +171,21 @@
 <div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
 </label>
 </div>
-<!-- Notes Section -->
 <div>
 <label class="block text-label-md font-label-md text-on-surface-variant mb-2">NOTES</label>
 <textarea class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-on-surface placeholder:text-outline focus:border-primary transition-all resize-none" name="notes" placeholder="Add any specific details about this gift..." rows="3"></textarea>
 </div>
 </div>
-<!-- Image Asset Contextual (Visual break) -->
+
 <div class="rounded-xl overflow-hidden h-32 relative">
-<div class="w-full h-full bg-cover bg-center" data-alt="A serene, minimalist digital illustration of a sunlit church interior with warm golden hour light streaming through tall windows. The aesthetic is clean, modern, and warm with deep teal accents and soft cream-colored stone walls, evoking a sense of peaceful stewardship and community." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBa_v2tblD_dlPmNlPh60L-oPlK5WWxTbi0R96H5GpqUHvvKTlqdSSFXfgcscE2nvtHCcPBQh5LxDqZcuovVEDkBXhk6ZGhk7_grB0KSeLUEYXfA8yX_7MHJATE2yuQQ-5ORlYaBUKs4KpkJv6cZHCOVoPVK-XIUXNpjPXn9vhA5gdUnW_6kKtvO_MbGZK8EaHcB2AfZm41YUXekv7kRR3jp6B5LD8RXjFqJy8Ja3-vREnqKdxOpZx7903Sifmogc0o2RA9Q-rJE54')"></div>
+<div class="w-full h-full bg-cover bg-center" data-alt="A serene, minimalist digital illustration of a sunlit church interior with warm golden hour light streaming through tall windows." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBa_v2tblD_dlPmNlPh60L-oPlK5WWxTbi0R96H5GpqUHvvKTlqdSSFXfgcscE2nvtHCcPBQh5LxDqZcuovVEDkBXhk6ZGhk7_grB0KSeLUEYXfA8yX_7MHJATE2yuQQ-5ORlYaBUKs4KpkJv6cZHCOVoPVK-XIUXNpjPXn9vhA5gdUnW_6kKtvO_MbGZK8EaHcB2AfZm41YUXekv7kRR3jp6B5LD8RXjFqJy8Ja3-vREnqKdxOpZx7903Sifmogc0o2RA9Q-rJE54')"></div>
 <div class="absolute inset-0 bg-primary/20 flex items-center justify-center">
 <p class="text-white font-headline-md opacity-80 italic">"God loves a cheerful giver."</p>
 </div>
 </div>
 </form>
 </main>
-<!-- Bottom Action Bar (Fixed) -->
+
 <div class="fixed bottom-0 left-0 w-full bg-surface-container-lowest p-4 px-container-padding pb-8 flex flex-col gap-3 shadow-[0_-10px_32px_rgba(0,0,0,0.05)] border-t border-outline-variant/20 z-50">
 <button class="w-full bg-primary text-white py-4 rounded-xl font-headline-md font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform" form="giving-form" type="submit">
 <span class="material-symbols-outlined">payments</span>
@@ -227,9 +193,7 @@
         </button>
 <p class="text-center text-label-md text-on-surface-variant">Recipient: Building Expansion Fund</p>
 </div>
-<!-- Hidden Navigation (Requirement from JSON for consistency check) -->
-<!-- On mobile, BottomNavBar is usually visible, but since this is a focused task, we use the Action Bar. 
-         We render the structure here but suppressed by the task flow priority -->
+
 <nav class="hidden md:flex fixed left-0 top-0 w-sidebar-width h-screen p-6 flex-col gap-y-4 bg-surface-container-lowest border-r border-outline-variant/10 shadow-sm">
 <div class="mb-8">
 <h2 class="text-headline-md font-headline-md font-extrabold text-primary">Sanctuary</h2>
@@ -257,14 +221,81 @@
 </div>
 </div>
 </nav>
+
 <script>
-        document.querySelectorAll('input, select, textarea').forEach(element => {
-            element.addEventListener('focus', () => {
-                element.closest('.bg-surface-container-lowest')?.classList.add('ring-1', 'ring-primary/20');
-            });
-            element.addEventListener('blur', () => {
-                element.closest('.bg-surface-container-lowest')?.classList.remove('ring-1', 'ring-primary/20');
-            });
+    document.querySelectorAll('input, select, textarea').forEach(element => {
+        element.addEventListener('focus', () => {
+            element.closest('.bg-surface-container-lowest')?.classList.add('ring-1', 'ring-primary/20');
         });
-    </script>
+        element.addEventListener('blur', () => {
+            element.closest('.bg-surface-container-lowest')?.classList.remove('ring-1', 'ring-primary/20');
+        });
+    });
+
+    // --- Donor search (live member lookup) ---
+    (function () {
+        const input = document.getElementById('donor-search-input');
+        const resultsBox = document.getElementById('donor-results');
+        let debounceTimer = null;
+        let activeController = null;
+
+        function hideResults() {
+            resultsBox.classList.add('hidden');
+            resultsBox.innerHTML = '';
+        }
+
+        function renderResults(members) {
+            if (!members.length) {
+                resultsBox.innerHTML = '<div class="px-4 py-3 text-body-md text-on-surface-variant">No members found — will save as guest.</div>';
+                resultsBox.classList.remove('hidden');
+                return;
+            }
+            resultsBox.innerHTML = members.map(m => `
+                <button type="button" class="w-full text-left px-4 py-3 hover:bg-surface-container-low flex items-center gap-3 donor-result" data-name="${m.name}">
+                    <div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-xs shrink-0">${m.initials || '??'}</div>
+                    <div class="flex-1 min-w-0">
+                        <p class="font-body-md text-on-surface truncate">${m.name}</p>
+                    </div>
+                    <span class="text-label-md text-on-surface-variant">${m.phone || ''}</span>
+                </button>
+            `).join('');
+            resultsBox.classList.remove('hidden');
+
+            resultsBox.querySelectorAll('.donor-result').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    input.value = btn.dataset.name;
+                    hideResults();
+                });
+            });
+        }
+
+        input.addEventListener('input', () => {
+            const query = input.value.trim();
+            clearTimeout(debounceTimer);
+
+            if (query.length < 2) {
+                hideResults();
+                return;
+            }
+
+            debounceTimer = setTimeout(() => {
+                if (activeController) activeController.abort();
+                activeController = new AbortController();
+
+                fetch(`{% url 'member_search' %}?q=${encodeURIComponent(query)}`, { signal: activeController.signal })
+                    .then(res => res.json())
+                    .then(data => renderResults(data.results))
+                    .catch(err => {
+                        if (err.name !== 'AbortError') console.error(err);
+                    });
+            }, 250);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#donor-search-input') && !e.target.closest('#donor-results')) {
+                hideResults();
+            }
+        });
+    })();
+</script>
 </body></html>

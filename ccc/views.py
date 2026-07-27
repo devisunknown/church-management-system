@@ -6,7 +6,8 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.db.models import Sum
+from django.db.models import Q, Sum
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from ratelimit import RateLimitDecorator
@@ -19,7 +20,7 @@ from .models import ActivityLog, GivingRecord, attendance, event, members as Mem
 
 
 def _log_activity(activity_type, description, icon='info', actor=''):
-    
+
     ActivityLog.objects.create(
         activity_type=activity_type,
         description=description,
@@ -92,6 +93,32 @@ def members_view(request):
 
 
 @login_required
+def member_search(request):
+    """AJAX endpoint used by the donor search field on addmoney.html."""
+    query = request.GET.get('q', '').strip()
+    if len(query) < 2:
+        return JsonResponse({'results': []})
+
+    members = Member.objects.filter(
+        Q(firstname__icontains=query) |
+        Q(lastname__icontains=query) |
+        Q(phone_number__icontains=query) |
+        Q(email__icontains=query)
+    )[:8]
+
+    results = [
+        {
+            'id': m.id,
+            'name': m.full_name,
+            'phone': m.phone_number or '',
+            'initials': m.initials,
+        }
+        for m in members
+    ]
+    return JsonResponse({'results': results})
+
+
+@login_required
 def addmember(request):
     if request.method == 'POST':
         firstname = request.POST.get('firstname', '')
@@ -105,7 +132,7 @@ def addmember(request):
         address = request.POST.get('address', '')
         scdgroup = request.POST.get('group', '')
         uploaded_image = request.FILES.get('image')
-        roles=request.POST.get('Roles')
+        roles = request.POST.get('Roles')
 
         parsed_datejoined = None
         if datejoined:
@@ -133,7 +160,7 @@ def addmember(request):
             return render(request, 'addmember.html', {
                 'error': 'A member with this phone number already exists.',
                 'email': email,
-                'phonenumber': phonenumber, 
+                'phonenumber': phonenumber,
             })
 
         _log_activity(
@@ -153,7 +180,7 @@ def editmember(request, member_id):
         member = Member.objects.get(id=member_id)
     except Member.DoesNotExist:
         return redirect('members')
-    
+
     if request.method == 'POST':
         firstname = request.POST.get('firstname', '')
         lastname = request.POST.get('lastname', '')
@@ -170,10 +197,10 @@ def editmember(request, member_id):
 
         parsed_datejoined = None
         if datejoined:
-           try:
-               parsed_datejoined = datetime.strptime(datejoined, '%Y-%m-%d')
-           except ValueError:
-               parsed_datejoined = None
+            try:
+                parsed_datejoined = datetime.strptime(datejoined, '%Y-%m-%d')
+            except ValueError:
+                parsed_datejoined = None
 
         member.firstname = firstname
         member.lastname = lastname
@@ -184,28 +211,29 @@ def editmember(request, member_id):
         member.residence = residence or address or ''
         member.address = address or ''
         if parsed_datejoined:
-           member.datejoined = parsed_datejoined
+            member.datejoined = parsed_datejoined
         member.scd_group = scdgroup
         if uploaded_image:
-           member.image = uploaded_image
+            member.image = uploaded_image
         member.role = roles
 
         try:
-           member.save()
-           _log_activity(
-               activity_type='member_added',
-               description=f"Member Updated: {member.full_name}",
-               icon='person',
-               actor=request.user.username if request.user.is_authenticated else '',
-           )
-           return redirect('members')
+            member.save()
+            _log_activity(
+                activity_type='member_added',
+                description=f"Member Updated: {member.full_name}",
+                icon='person',
+                actor=request.user.username if request.user.is_authenticated else '',
+            )
+            return redirect('members')
         except IntegrityError:
-           return render(request, 'editmember.html', {
-               'error': 'A member with this phone number already exists.',
-               'member': member,
-           })
+            return render(request, 'editmember.html', {
+                'error': 'A member with this phone number already exists.',
+                'member': member,
+            })
 
     return render(request, 'editmember.html', {'member': member})
+
 
 @login_required
 def calandar(request):
@@ -282,7 +310,7 @@ def addevent(request):
 
 @login_required
 def attendance_landing(request):
-    
+
     ev = event.objects.order_by('-date', '-id').first()
     if ev:
         return redirect('take_attendance', event_id=ev.id)
@@ -411,13 +439,13 @@ def attendance_summary(request, event_id):
         'scd_group_filters': scd_group_filters,
     })
 
-   
 
 
 @login_required
 def money(request):
     records = GivingRecord.objects.all()[:10]
     total_giving = GivingRecord.objects.aggregate(total=Sum('amount'))['total'] or 0
+
     month_labels = []
     monthly_totals = []
     today = timezone.localdate()
@@ -452,6 +480,40 @@ def money(request):
     fund_totals = {row['fund']: float(row['total'] or 0) for row in fund_totals_raw}
     fund_labels = [label for value, label in GivingRecord.FUND_CHOICES]
     fund_values = [fund_totals.get(value, 0) for value, _ in GivingRecord.FUND_CHOICES]
+
+    
+    recent_donors = []
+    seen_names = set()
+    member_lookup = {
+        m.full_name.strip().lower(): m
+        for m in Member.objects.all()
+    }
+
+    for rec in GivingRecord.objects.exclude(donor_name='').order_by('-gift_date', '-created_at'):
+        name = rec.donor_name.strip()
+        key = name.lower()
+        if not name or key in seen_names:
+            continue
+        seen_names.add(key)
+
+        matched_member = member_lookup.get(key)
+        donor_total = GivingRecord.objects.filter(donor_name__iexact=name).aggregate(
+            total=Sum('amount')
+        )['total'] or 0
+
+        recent_donors.append({
+            'name': name,
+            'initials': matched_member.initials if matched_member else (name[:2].upper() if name else '??'),
+            'photo': matched_member.photo.url if matched_member and matched_member.photo else '',
+            'is_member': matched_member is not None,
+            'last_gift_date': rec.gift_date,
+            'last_amount': rec.amount,
+            'total_given': donor_total,
+        })
+
+        if len(recent_donors) >= 6:
+            break
+
     return render(request, 'money.html', {
         'records': records,
         'total_giving': total_giving,
@@ -459,6 +521,7 @@ def money(request):
         'monthly_totals': monthly_totals,
         'fund_labels': fund_labels,
         'fund_values': fund_values,
+        'recent_donors': recent_donors,
     })
 
 
@@ -481,6 +544,13 @@ def addmoney(request):
             gift_date=gift_date,
             tax_deductible=tax_deductible,
             notes=notes,
+        )
+
+        _log_activity(
+            activity_type='giving_recorded',
+            description=f"Gift recorded: {donor_name or 'Anonymous'} — {amount}",
+            icon='payments',
+            actor=request.user.username if request.user.is_authenticated else '',
         )
         return redirect('money')
 
