@@ -6,7 +6,6 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -104,7 +103,6 @@
         .custom-shadow { box-shadow: 0px 4px 20px rgba(19, 78, 74, 0.04); }
         .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(19, 78, 74, 0.05); }
         .active-nav-border { border-right: 4px solid #003633; background: rgba(0, 54, 51, 0.05); }
-        /* Hide scrollbars but keep functionality */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -280,55 +278,41 @@
 </div>
 <div class="bg-white p-6 rounded-2xl custom-shadow border border-outline-variant/10 space-y-6">
 <div class="flex flex-col gap-1">
-<span class="text-body-md font-bold text-primary">Sunday 1st Service</span>
-<span class="text-label-md text-on-surface-variant">Oct 22, 9:00 AM</span>
+{% if next_service %}
+<span class="text-body-md font-bold text-primary">{{ next_service.tittle }}</span>
+<span class="text-label-md text-on-surface-variant">{{ next_service.date|date:"M j" }}, {{ next_service.starttime|time:"g:i A" }}</span>
+{% else %}
+<span class="text-body-md font-bold text-primary">No upcoming service</span>
+<span class="text-label-md text-on-surface-variant">Schedule an event to see volunteer status here</span>
+{% endif %}
 </div>
 <div class="space-y-5">
-<!-- Role 1 -->
+{% for role in volunteer_status %}
 <div class="space-y-2">
 <div class="flex justify-between items-end">
-<span class="text-label-md font-bold text-on-surface">Ushers</span>
-<span class="text-label-md text-on-surface-variant">4/5 filled</span>
-</div>
-<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 80%"></div>
-</div>
-</div>
-<!-- Role 2 -->
-<div class="space-y-2">
-<div class="flex justify-between items-end">
-<span class="text-label-md font-bold text-on-surface">Media &amp; Tech</span>
+<span class="text-label-md font-bold text-on-surface">{{ role.role }}</span>
+{% if role.level == 'full' %}
 <span class="text-label-md text-primary font-bold">Full</span>
-</div>
-<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: 100%"></div>
-</div>
-</div>
-<!-- Role 3 -->
-<div class="space-y-2">
-<div class="flex justify-between items-end">
-<span class="text-label-md font-bold text-on-surface">Greeters</span>
-<span class="text-label-md text-on-surface-variant">2/4 filled</span>
-</div>
-<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-tertiary-container rounded-full transition-all duration-1000" style="width: 50%"></div>
-</div>
-</div>
-<!-- Role 4 -->
-<div class="space-y-2">
-<div class="flex justify-between items-end">
-<span class="text-label-md font-bold text-on-surface">Nursery</span>
+{% elif role.level == 'critical' %}
 <span class="text-label-md text-error font-bold">Critical</span>
+{% else %}
+<span class="text-label-md text-on-surface-variant">{{ role.filled }}/{{ role.total }} filled</span>
+{% endif %}
 </div>
 <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-error rounded-full transition-all duration-1000" style="width: 25%"></div>
+<div class="h-full rounded-full transition-all duration-1000 {% if role.level == 'critical' %}bg-error{% elif role.level == 'partial' %}bg-tertiary-container{% else %}bg-primary{% endif %}" style="width: {{ role.percent }}%"></div>
 </div>
 </div>
+{% empty %}
+{% if next_service %}
+<p class="text-label-md text-on-surface-variant">No members have a role assigned yet, so volunteer coverage can't be calculated.</p>
+{% endif %}
+{% endfor %}
 </div>
-<button class="w-full py-3 bg-secondary-fixed text-primary font-bold rounded-xl hover:bg-secondary-fixed-dim transition-all flex items-center justify-center gap-2">
+<a href="{% url 'members' %}" class="w-full py-3 bg-secondary-fixed text-primary font-bold rounded-xl hover:bg-secondary-fixed-dim transition-all flex items-center justify-center gap-2">
 <span class="material-symbols-outlined text-[18px]">manage_accounts</span>
-                            Open Rota Manager
-                        </button>
+                            Manage Members &amp; Roles
+                        </a>
 </div>
 <!-- Small Insight Card -->
 <div class="bg-primary-container text-on-primary-container p-6 rounded-2xl custom-shadow flex items-start gap-4">

@@ -235,6 +235,44 @@ def editmember(request, member_id):
     return render(request, 'editmember.html', {'member': member})
 
 
+def _volunteer_status_for_event(ev):
+    if not ev:
+        return []
+
+    all_members = list(Member.objects.exclude(role='').exclude(role__isnull=True))
+    roles = sorted({(m.role or '').strip() for m in all_members if (m.role or '').strip()})
+
+    marked_present_ids = set(
+        attendance.objects.filter(event=ev, is_present=True).values_list('member_id', flat=True)
+    )
+
+    statuses = []
+    for role_name in roles:
+        role_members = [m for m in all_members if (m.role or '').strip() == role_name]
+        total = len(role_members)
+        if total == 0:
+            continue
+        filled = sum(1 for m in role_members if m.id in marked_present_ids)
+        ratio = filled / total
+
+        if ratio >= 1:
+            level = 'full'
+        elif ratio <= 0.3:
+            level = 'critical'
+        else:
+            level = 'partial'
+
+        statuses.append({
+            'role': role_name,
+            'filled': filled,
+            'total': total,
+            'percent': min(round(ratio * 100), 100),
+            'level': level,
+        })
+
+    return statuses
+
+
 @login_required
 def calandar(request):
     selected_date_str = request.GET.get('date') or request.GET.get('selected_date')
@@ -262,13 +300,22 @@ def calandar(request):
         dates_list = [week_start + timezone.timedelta(days=i) for i in range(7)]
 
     events = event.objects.filter(date__date=selected_date).order_by('starttime')
+
+    next_service = (
+        event.objects.filter(date__gte=timezone.now())
+        .order_by('date', 'starttime')
+        .first()
+    )
+    volunteer_status = _volunteer_status_for_event(next_service)
+
     return render(request, 'calandar.html', {
         'events': events,
         'selected_date': selected_date,
         'dates_list': dates_list,
         'view_mode': view_mode,
+        'next_service': next_service,
+        'volunteer_status': volunteer_status,
     })
-
 
 @login_required
 def events_view(request):
