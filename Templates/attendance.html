@@ -203,7 +203,7 @@ Save Attendance
 <div class="fixed bottom-24 right-4 md:bottom-8 md:right-8 z-50">
 <div class="bg-primary text-white p-4 pr-6 rounded-2xl shadow-2xl flex items-center gap-4 border border-white/20">
 <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-<a href="{% url 'attendance_summary' %}">
+<a href="{% url 'attendance_summary' event.id %}">
   <span class="material-symbols-outlined text-[28px] fill-icon">person</span>
 </a>
 </div>
