@@ -491,7 +491,13 @@ def attendance_summary(request, event_id):
 @login_required
 def money(request):
     records = GivingRecord.objects.all()[:10]
-    total_giving = GivingRecord.objects.aggregate(total=Sum('amount'))['total'] or 0
+    total_income = GivingRecord.objects.filter(transaction_type='income').aggregate(
+        total=Sum('amount')
+    )['total'] or 0
+    total_deductions = GivingRecord.objects.filter(transaction_type='expense').aggregate(
+        total=Sum('amount')
+    )['total'] or 0
+    total_giving = total_income - total_deductions
 
     month_labels = []
     monthly_totals = []
@@ -510,17 +516,21 @@ def money(request):
 
     for year, month in ordered_months:
         month_labels.append(datetime(year, month, 1).strftime('%b'))
-        monthly_totals.append(
-            float(
-                GivingRecord.objects.filter(
-                    gift_date__year=year,
-                    gift_date__month=month,
-                ).aggregate(total=Sum('amount'))['total'] or 0
-            )
-        )
+        month_income = GivingRecord.objects.filter(
+            transaction_type='income',
+            gift_date__year=year,
+            gift_date__month=month,
+        ).aggregate(total=Sum('amount'))['total'] or 0
+        month_expense = GivingRecord.objects.filter(
+            transaction_type='expense',
+            gift_date__year=year,
+            gift_date__month=month,
+        ).aggregate(total=Sum('amount'))['total'] or 0
+        monthly_totals.append(float(month_income - month_expense))
 
     fund_totals_raw = (
-        GivingRecord.objects.values('fund')
+        GivingRecord.objects.filter(transaction_type='income')
+        .values('fund')
         .annotate(total=Sum('amount'))
         .order_by('fund')
     )
@@ -536,7 +546,7 @@ def money(request):
         for m in Member.objects.all()
     }
 
-    for rec in GivingRecord.objects.exclude(donor_name='').order_by('-gift_date', '-created_at'):
+    for rec in GivingRecord.objects.filter(transaction_type='income').exclude(donor_name='').order_by('-gift_date', '-created_at'):
         name = rec.donor_name.strip()
         key = name.lower()
         if not name or key in seen_names:
@@ -544,7 +554,7 @@ def money(request):
         seen_names.add(key)
 
         matched_member = member_lookup.get(key)
-        donor_total = GivingRecord.objects.filter(donor_name__iexact=name).aggregate(
+        donor_total = GivingRecord.objects.filter(transaction_type='income', donor_name__iexact=name).aggregate(
             total=Sum('amount')
         )['total'] or 0
 
@@ -564,6 +574,8 @@ def money(request):
     return render(request, 'money.html', {
         'records': records,
         'total_giving': total_giving,
+        'total_income': total_income,
+        'total_deductions': total_deductions,
         'month_labels': month_labels,
         'monthly_totals': monthly_totals,
         'fund_labels': fund_labels,
@@ -576,6 +588,9 @@ def money(request):
 def addmoney(request):
     if request.method == 'POST':
         amount = request.POST.get('amount')
+        transaction_type = request.POST.get('transaction_type', 'income')
+        if transaction_type not in dict(GivingRecord.TRANSACTION_TYPE_CHOICES):
+            transaction_type = 'income'
         donor_name = request.POST.get('donor_name', '').strip()
         fund = request.POST.get('fund', 'general')
         payment_method = request.POST.get('payment_method', 'cash')
@@ -585,6 +600,7 @@ def addmoney(request):
 
         GivingRecord.objects.create(
             amount=amount,
+            transaction_type=transaction_type,
             donor_name=donor_name,
             fund=fund,
             payment_method=payment_method,
@@ -593,12 +609,20 @@ def addmoney(request):
             notes=notes,
         )
 
-        _log_activity(
-            activity_type='giving_recorded',
-            description=f"Gift recorded: {donor_name or 'Anonymous'} — {amount}",
-            icon='payments',
-            actor=request.user.username if request.user.is_authenticated else '',
-        )
+        if transaction_type == 'expense':
+            _log_activity(
+                activity_type='giving_recorded',
+                description=f"Deduction recorded: {donor_name or notes or 'Expense'} — {amount}",
+                icon='remove_circle',
+                actor=request.user.username if request.user.is_authenticated else '',
+            )
+        else:
+            _log_activity(
+                activity_type='giving_recorded',
+                description=f"Gift recorded: {donor_name or 'Anonymous'} — {amount}",
+                icon='payments',
+                actor=request.user.username if request.user.is_authenticated else '',
+            )
         return redirect('money')
 
     return render(request, 'addmoney.html', {

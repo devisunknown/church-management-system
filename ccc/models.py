@@ -154,8 +154,14 @@ class GivingRecord(models.Model):
         ('card', 'Card'),
     ]
 
+    TRANSACTION_TYPE_CHOICES = [
+        ('income', 'Donation'),
+        ('expense', 'Deduction'),
+    ]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
+    transaction_type = models.CharField(max_length=10, choices=TRANSACTION_TYPE_CHOICES, default='income')
     donor_name = models.CharField(max_length=150, blank=True)
     fund = models.CharField(max_length=30, choices=FUND_CHOICES, default='general')
     payment_method = models.CharField(max_length=20, choices=METHOD_CHOICES, default='cash')
@@ -167,5 +173,15 @@ class GivingRecord(models.Model):
     class Meta:
         ordering = ['-created_at']
 
+    @property
+    def is_deduction(self):
+        return self.transaction_type == 'expense'
+
+    @property
+    def signed_amount(self):
+        """Amount signed for net calculations: negative for deductions."""
+        return -self.amount if self.is_deduction else self.amount
+
     def __str__(self):
-        return f"{self.amount} to {self.fund}"
+        label = 'Deduction' if self.is_deduction else 'Gift'
+        return f"{label}: {self.amount} ({self.fund})"

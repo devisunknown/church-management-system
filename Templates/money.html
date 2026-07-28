@@ -162,8 +162,12 @@
 </svg>
 <div class="absolute inset-0 flex flex-col items-center justify-center">
 <span class="text-headline-md font-bold text-primary">${{ total_giving|floatformat:2 }}</span>
-<span class="text-label-md text-on-surface-variant">Total</span>
+<span class="text-label-md text-on-surface-variant">Net Total</span>
 </div>
+</div>
+<div class="flex items-center justify-between px-1 mb-4 text-label-md">
+<span class="text-on-surface-variant">Donations: <span class="font-bold text-primary">${{ total_income|floatformat:2 }}</span></span>
+<span class="text-on-surface-variant">Deductions: <span class="font-bold text-error">-${{ total_deductions|floatformat:2 }}</span></span>
 </div>
 <div class="space-y-3 mt-auto" id="fund-legend"></div>
 </section>
@@ -238,13 +242,16 @@ No donors recorded yet.
 </thead>
 <tbody class="divide-y divide-outline-variant/20">
 {% for record in records %}
-<tr class="hover:bg-[#FDFCF7] transition-colors group cursor-pointer">
+<tr class="hover:bg-[#FDFCF7] transition-colors group cursor-pointer{% if record.is_deduction %} bg-error/[0.03]{% endif %}">
 <td class="px-6 py-4">
 <div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-xs">
-{{ record.donor_name|default:"??"|slice:":2"|upper }}
+<div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs {% if record.is_deduction %}bg-error/10 text-error{% else %}bg-primary-fixed text-primary{% endif %}">
+{% if record.is_deduction %}<span class="material-symbols-outlined text-[16px]">remove</span>{% else %}{{ record.donor_name|default:"??"|slice:":2"|upper }}{% endif %}
 </div>
 <span class="text-body-md font-medium">{{ record.donor_name|default:"Anonymous Giver" }}</span>
+{% if record.is_deduction %}
+<span class="text-[10px] uppercase tracking-wide font-bold text-error bg-error/10 px-2 py-0.5 rounded-full shrink-0">Deduction</span>
+{% endif %}
 </div>
 </td>
 <td class="px-6 py-4 text-body-md text-on-surface-variant">{{ record.gift_date|date:"M d, Y" }}</td>
@@ -252,7 +259,7 @@ No donors recorded yet.
 <span class="px-3 py-1 rounded-full bg-primary-container/10 text-primary-container text-xs font-bold">{{ record.get_fund_display }}</span>
 </td>
 <td class="px-6 py-4 text-body-md text-on-surface-variant">{{ record.get_payment_method_display }}</td>
-<td class="px-6 py-4 text-body-md font-bold text-right text-primary">${{ record.amount }}</td>
+<td class="px-6 py-4 text-body-md font-bold text-right {% if record.is_deduction %}text-error{% else %}text-primary{% endif %}">{% if record.is_deduction %}-{% endif %}${{ record.amount }}</td>
 </tr>
 {% empty %}
 <tr>

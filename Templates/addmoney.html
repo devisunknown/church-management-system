@@ -112,18 +112,35 @@
 <form class="space-y-6" id="giving-form" method="post" action="{% url 'addmoney' %}">
 {% csrf_token %}
 
+<div class="bg-surface-container-lowest soft-shadow rounded-xl p-2 border border-outline-variant/10 grid grid-cols-2 gap-2" id="transaction-type-toggle">
+<label class="relative">
+<input checked class="sr-only peer" name="transaction_type" type="radio" value="income"/>
+<div class="peer-checked:bg-primary peer-checked:text-white text-on-surface-variant text-center py-3 rounded-lg font-label-md font-bold cursor-pointer transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+Donation
+</div>
+</label>
+<label class="relative">
+<input class="sr-only peer" name="transaction_type" type="radio" value="expense"/>
+<div class="peer-checked:bg-error peer-checked:text-white text-on-surface-variant text-center py-3 rounded-lg font-label-md font-bold cursor-pointer transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">remove_circle</span>
+Deduction
+</div>
+</label>
+</div>
+
 <div class="bg-surface-container-lowest soft-shadow rounded-xl p-6 border border-outline-variant/10">
-<label class="block text-label-md font-label-md text-on-surface-variant mb-2">AMOUNT</label>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2" id="amount-label">AMOUNT</label>
 <div class="relative flex items-center">
-<span class="absolute left-0 text-headline-xl font-headline-xl text-primary/30">$</span>
-<input class="w-full bg-transparent border-none p-0 pl-8 text-headline-xl font-headline-xl text-primary placeholder:text-primary/10 focus:ring-0" name="amount" placeholder="0.00" required step="0.01" type="number"/>
+<span class="absolute left-0 text-headline-xl font-headline-xl text-primary/30" id="amount-sign">$</span>
+<input class="w-full bg-transparent border-none p-0 pl-8 text-headline-xl font-headline-xl text-primary placeholder:text-primary/10 focus:ring-0" id="amount-input" name="amount" placeholder="0.00" required step="0.01" type="number"/>
 </div>
 </div>
 
 <div class="bg-surface-container-lowest soft-shadow rounded-xl p-6 space-y-5 border border-outline-variant/10">
 
 <div class="relative">
-<label class="block text-label-md font-label-md text-on-surface-variant mb-2">DONOR</label>
+<label class="block text-label-md font-label-md text-on-surface-variant mb-2" id="donor-label">DONOR</label>
 <div class="relative">
 <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">search</span>
 <input autocomplete="off" class="w-full pl-12 pr-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-on-surface placeholder:text-outline focus:border-primary transition-all" id="donor-search-input" name="donor_name" placeholder="Search member or guest..." type="text"/>
@@ -160,7 +177,7 @@
 </div>
 </div>
 
-<div class="bg-surface-container-lowest soft-shadow rounded-xl p-6 border border-outline-variant/10 space-y-6">
+<div class="bg-surface-container-lowest soft-shadow rounded-xl p-6 border border-outline-variant/10 space-y-6" id="tax-deductible-section">
 <div class="flex items-center justify-between">
 <div>
 <p class="font-body-md font-semibold text-on-surface">Tax Deductible</p>
@@ -187,9 +204,9 @@
 </main>
 
 <div class="fixed bottom-0 left-0 w-full bg-surface-container-lowest p-4 px-container-padding pb-8 flex flex-col gap-3 shadow-[0_-10px_32px_rgba(0,0,0,0.05)] border-t border-outline-variant/20 z-50">
-<button class="w-full bg-primary text-white py-4 rounded-xl font-headline-md font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform" form="giving-form" type="submit">
-<span class="material-symbols-outlined">payments</span>
-            Submit Recording
+<button class="w-full bg-primary text-white py-4 rounded-xl font-headline-md font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform" form="giving-form" id="submit-btn" type="submit">
+<span class="material-symbols-outlined" id="submit-icon">payments</span>
+<span id="submit-label">Submit Recording</span>
         </button>
 <p class="text-center text-label-md text-on-surface-variant">Recipient: Building Expansion Fund</p>
 </div>
@@ -223,6 +240,46 @@
 </nav>
 
 <script>
+    // --- Donation / Deduction mode toggle ---
+    (function () {
+        const radios = document.querySelectorAll('input[name="transaction_type"]');
+        const amountSign = document.getElementById('amount-sign');
+        const amountInput = document.getElementById('amount-input');
+        const donorLabel = document.getElementById('donor-label');
+        const donorInput = document.getElementById('donor-search-input');
+        const taxSection = document.getElementById('tax-deductible-section');
+        const submitBtn = document.getElementById('submit-btn');
+        const submitIcon = document.getElementById('submit-icon');
+        const submitLabel = document.getElementById('submit-label');
+
+        function applyMode(mode) {
+            const isExpense = mode === 'expense';
+
+            amountSign.classList.toggle('text-primary/30', !isExpense);
+            amountSign.classList.toggle('text-error/40', isExpense);
+            amountInput.classList.toggle('text-primary', !isExpense);
+            amountInput.classList.toggle('text-error', isExpense);
+            amountSign.textContent = isExpense ? '-$' : '$';
+
+            donorLabel.textContent = isExpense ? 'PAID TO / REASON' : 'DONOR';
+            donorInput.placeholder = isExpense ? 'e.g. Electricity bill, Supplies...' : 'Search member or guest...';
+
+            taxSection.classList.toggle('hidden', isExpense);
+
+            submitBtn.classList.toggle('bg-primary', !isExpense);
+            submitBtn.classList.toggle('bg-error', isExpense);
+            submitIcon.textContent = isExpense ? 'remove_circle' : 'payments';
+            submitLabel.textContent = isExpense ? 'Submit Deduction' : 'Submit Recording';
+        }
+
+        radios.forEach(radio => {
+            radio.addEventListener('change', () => applyMode(radio.value));
+        });
+
+        const checked = document.querySelector('input[name="transaction_type"]:checked');
+        applyMode(checked ? checked.value : 'income');
+    })();
+
     document.querySelectorAll('input, select, textarea').forEach(element => {
         element.addEventListener('focus', () => {
             element.closest('.bg-surface-container-lowest')?.classList.add('ring-1', 'ring-primary/20');

@@ -112,6 +112,7 @@ class ActivityLogAdmin(admin.ModelAdmin):
 class GivingRecordAdmin(admin.ModelAdmin):
     list_display = (
         'amount',
+        'transaction_type',
         'donor_name',
         'fund',
         'payment_method',
@@ -126,6 +127,7 @@ class GivingRecordAdmin(admin.ModelAdmin):
         'notes',
     )
     list_filter = (
+        'transaction_type',
         'fund',
         'payment_method',
         'tax_deductible',
