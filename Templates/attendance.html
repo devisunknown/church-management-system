@@ -201,14 +201,16 @@ Save Attendance
 </main>
 <!-- Real-time Counter -->
 <a href="{% url 'attendance_summary' event.id %}" class="fixed bottom-24 right-4 md:bottom-8 md:right-8 z-50 group hover:scale-105 transition-transform duration-200 block">
-  <div class="bg-primary text-white p-4 pr-6 rounded-2xl shadow-2xl flex items-center gap-4 border border-white/20">
-    <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-      <span class="material-symbols-outlined text-[28px] fill-icon">person</span>
+  <div class="bg-primary text-white p-3 pr-5 rounded-2xl shadow-2xl flex items-center gap-3 border border-white/20">
+    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+      <span class="material-symbols-outlined text-[24px] fill-icon">group</span>
     </div>
     <div>
-      <p class="text-[10px] uppercase font-bold tracking-widest text-primary-fixed/80">Total Checked In
-        click to view attendance</p>
-      <p class="text-2xl font-headline-md font-extrabold" id="total-counter">0</p>
+      <div class="flex items-center gap-1.5">
+        <p class="text-[10px] uppercase font-bold tracking-wider text-primary-fixed/90 leading-none">Checked In</p>
+        <span class="material-symbols-outlined text-[12px] text-white/60 group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+      </div>
+      <p class="text-xl font-headline-md font-extrabold leading-tight" id="total-counter">0</p>
     </div>
   </div>
 </a>
