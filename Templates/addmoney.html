@@ -132,8 +132,8 @@ Deduction
 <div class="bg-surface-container-lowest soft-shadow rounded-xl p-6 border border-outline-variant/10">
 <label class="block text-label-md font-label-md text-on-surface-variant mb-2" id="amount-label">AMOUNT</label>
 <div class="relative flex items-center">
-<span class="absolute left-0 text-headline-xl font-headline-xl text-primary/30" id="amount-sign">$</span>
-<input class="w-full bg-transparent border-none p-0 pl-8 text-headline-xl font-headline-xl text-primary placeholder:text-primary/10 focus:ring-0" id="amount-input" name="amount" placeholder="0.00" required step="0.01" type="number"/>
+<span class="absolute left-0 inline-block min-w-[2.5rem] text-headline-xl font-headline-xl text-primary/30" id="amount-sign">₵</span>
+<input class="w-full bg-transparent border-none p-0 pl-14 text-headline-xl font-headline-xl text-primary placeholder:text-primary/10 focus:ring-0" id="amount-input" name="amount" placeholder="0.00" required step="0.01" type="number"/>
 </div>
 </div>
 
@@ -259,7 +259,7 @@ Deduction
             amountSign.classList.toggle('text-error/40', isExpense);
             amountInput.classList.toggle('text-primary', !isExpense);
             amountInput.classList.toggle('text-error', isExpense);
-            amountSign.textContent = isExpense ? '-$' : '$';
+            amountSign.textContent = isExpense ? '-₵' : '₵';
 
             donorLabel.textContent = isExpense ? 'PAID TO / REASON' : 'DONOR';
             donorInput.placeholder = isExpense ? 'e.g. Electricity bill, Supplies...' : 'Search member or guest...';

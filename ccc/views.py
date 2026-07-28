@@ -37,7 +37,7 @@ def dashboard(request):
     if latest_attendance_event:
         weekly_attendance = attendance.objects.filter(event_id=latest_attendance_event, is_present=True).count()
 
-    latest_giving = GivingRecord.objects.order_by('-created_at').first()
+    latest_giving = GivingRecord.objects.filter(transaction_type='income').order_by('-created_at').first()
     recent_giving = latest_giving.amount if latest_giving else None
 
     context = {

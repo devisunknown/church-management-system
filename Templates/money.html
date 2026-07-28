@@ -161,13 +161,13 @@
 <g id="fund-segments"></g>
 </svg>
 <div class="absolute inset-0 flex flex-col items-center justify-center">
-<span class="text-headline-md font-bold text-primary">${{ total_giving|floatformat:2 }}</span>
+<span class="text-headline-md font-bold text-primary">₵{{ total_giving|floatformat:2 }}</span>
 <span class="text-label-md text-on-surface-variant">Net Total</span>
 </div>
 </div>
 <div class="flex items-center justify-between px-1 mb-4 text-label-md">
-<span class="text-on-surface-variant">Donations: <span class="font-bold text-primary">${{ total_income|floatformat:2 }}</span></span>
-<span class="text-on-surface-variant">Deductions: <span class="font-bold text-error">-${{ total_deductions|floatformat:2 }}</span></span>
+<span class="text-on-surface-variant">Donations: <span class="font-bold text-primary">₵{{ total_income|floatformat:2 }}</span></span>
+<span class="text-on-surface-variant">Deductions: <span class="font-bold text-error">-₵{{ total_deductions|floatformat:2 }}</span></span>
 </div>
 <div class="space-y-3 mt-auto" id="fund-legend"></div>
 </section>
@@ -198,10 +198,10 @@
 <span class="text-[10px] uppercase tracking-wide font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full shrink-0">Member</span>
 {% endif %}
 </div>
-<p class="text-label-md text-on-surface-variant">Last gift {{ donor.last_gift_date|date:"M d" }} · ${{ donor.last_amount }}</p>
+<p class="text-label-md text-on-surface-variant">Last gift {{ donor.last_gift_date|date:"M d" }} · ₵{{ donor.last_amount }}</p>
 </div>
 <div class="text-right shrink-0">
-<p class="text-body-md font-bold text-primary">${{ donor.total_given|floatformat:2 }}</p>
+<p class="text-body-md font-bold text-primary">₵{{ donor.total_given|floatformat:2 }}</p>
 <p class="text-label-md text-on-surface-variant">total</p>
 </div>
 </div>
@@ -259,7 +259,7 @@ No donors recorded yet.
 <span class="px-3 py-1 rounded-full bg-primary-container/10 text-primary-container text-xs font-bold">{{ record.get_fund_display }}</span>
 </td>
 <td class="px-6 py-4 text-body-md text-on-surface-variant">{{ record.get_payment_method_display }}</td>
-<td class="px-6 py-4 text-body-md font-bold text-right {% if record.is_deduction %}text-error{% else %}text-primary{% endif %}">{% if record.is_deduction %}-{% endif %}${{ record.amount }}</td>
+<td class="px-6 py-4 text-body-md font-bold text-right {% if record.is_deduction %}text-error{% else %}text-primary{% endif %}">{% if record.is_deduction %}-{% endif %}₵{{ record.amount }}</td>
 </tr>
 {% empty %}
 <tr>
