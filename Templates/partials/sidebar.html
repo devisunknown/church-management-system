@@ -1,4 +1,12 @@
 <aside id="app-sidebar" class="hidden md:flex flex-col w-sidebar-width h-screen fixed left-0 top-0 p-6 gap-y-4 bg-surface-container-lowest border-r border-outline-variant/30 z-40">
+<<<<<<< HEAD
+  <div class="mb-8 flex items-center gap-3">
+    <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">temple_buddhist</span>
+    </div>
+    <h1 class="text-headline-md font-headline-md font-extrabold text-primary">Newgen Shakers</h1>
+  </div>
+=======
 <div class="mb-8 flex items-center gap-3">
 <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">temple_buddhist</span>
@@ -22,4 +30,85 @@
 </div>
 </div>
 </div>
+</aside>
+>>>>>>> 9b50adfdf8fba14d790f9f34c5591aa2be7c66e2
+
+  <nav class="flex-1 space-y-1 overflow-y-auto">
+    <!-- Dashboard -->
+    <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'dashboard' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
+       href="{% url 'dashboard' %}">
+      <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'dashboard' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>dashboard</span>
+      <span class="text-label-md font-label-md">Dashboard</span>
+    </a>
+
+    <!-- Members -->
+    <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'members' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
+       href="{% url 'members' %}">
+      <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'members' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>group</span>
+      <span class="text-label-md font-label-md">Members</span>
+    </a>
+
+    <!-- Attendance -->
+    <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'attendance' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
+       href="{% url 'attendance' %}">
+      <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'attendance' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>fact_check</span>
+      <span class="text-label-md font-label-md">Attendance</span>
+    </a>
+
+    <!-- Events -->
+    <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'events' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
+       href="{% url 'events' %}">
+      <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'events' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>event</span>
+      <span class="text-label-md font-label-md">Events</span>
+    </a>
+
+    <!-- Calendar -->
+    <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'calandar' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
+       href="{% url 'calandar' %}">
+      <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'calandar' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>calendar_month</span>
+      <span class="text-label-md font-label-md">Calendar</span>
+    </a>
+
+    <!-- Giving -->
+    <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'money' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
+       href="{% url 'money' %}">
+      <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'money' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>payments</span>
+      <span class="text-label-md font-label-md">Giving</span>
+    </a>
+
+    <!-- History -->
+    <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'history' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
+       href="{% url 'history' %}">
+      <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'history' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>history</span>
+      <span class="text-label-md font-label-md">History</span>
+    </a>
+
+    <div class="pt-4 mt-4 border-t border-outline-variant/20 space-y-1">
+      <!-- Communication -->
+      <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'communication' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
+         href="#">
+        <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'communication' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>chat</span>
+        <span class="text-label-md font-label-md">Communication</span>
+      </a>
+
+      <!-- Settings -->
+      <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'settings' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
+         href="#">
+        <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'settings' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>settings</span>
+        <span class="text-label-md font-label-md">Settings & Admin</span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="mt-auto pt-6 border-t border-outline-variant/30">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center shrink-0">
+        <span class="text-on-primary-fixed font-bold text-sm">{{ user.username|slice:":2"|upper }}</span>
+      </div>
+      <div class="overflow-hidden">
+        <p class="text-body-md font-bold text-on-surface truncate">{{ user.get_full_name|default:user.username }}</p>
+        <p class="text-label-md text-on-surface-variant truncate">Administrator</p>
+      </div>
+    </div>
+  </div>
 </aside>
