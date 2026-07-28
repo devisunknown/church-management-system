@@ -1,7 +1,8 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from itertools import groupby
 from operator import attrgetter
 
+from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -40,10 +41,16 @@ def dashboard(request):
     latest_giving = GivingRecord.objects.filter(transaction_type='income').order_by('-created_at').first()
     recent_giving = latest_giving.amount if latest_giving else None
 
+    now = timezone.now()
+    upcoming_events = event.objects.filter(
+        date__gte=now,
+        date__lte=now + timedelta(days=7),
+    ).order_by('date')[:5]
+
     context = {
         'total_members': Member.objects.count(),
         'total_events': event.objects.count(),
-        'activeevents': event.objects.all()[:5],
+        'activeevents': upcoming_events,
         'recent_activity': ActivityLog.objects.all()[:6],
         'weekly_attendance': weekly_attendance,
         'recent_giving': recent_giving,
@@ -357,10 +364,7 @@ def addevent(request):
 
 @login_required
 def attendance_landing(request):
-
-    ev = event.objects.order_by('-date', '-id').first()
-    if ev:
-        return redirect('take_attendance', event_id=ev.id)
+    messages.info(request, 'Choose an event below to take attendance for it.')
     return redirect('events')
 
 
@@ -379,6 +383,12 @@ def history_view(request):
 @login_required
 def take_attendance(request, event_id):
     ev = get_object_or_404(event, id=event_id)
+
+    if ev.is_past:
+        messages.error(request, f'"{ev.tittle}" already took place, so attendance can no longer be taken for it.')
+        if attendance.objects.filter(event=ev).exists():
+            return redirect('attendance_summary', event_id=ev.id)
+        return redirect('events')
 
     if request.method == 'POST':
         present_ids = set(request.POST.getlist('present_members'))

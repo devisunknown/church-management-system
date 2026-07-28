@@ -91,6 +91,12 @@ class event(models.Model):
         return self.endtime
 
     @property
+    def is_past(self):
+        if not self.date:
+            return False
+        return self.date < timezone.now()
+
+    @property
     def registration_open(self):
         return False
 

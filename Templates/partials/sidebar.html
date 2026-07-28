@@ -22,16 +22,16 @@
     </a>
 
     <!-- Attendance -->
-    <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'attendance' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
+    <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'attendance' or request.resolver_match.url_name == 'take_attendance' or request.resolver_match.url_name == 'attendance_summary' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
        href="{% url 'attendance' %}">
-      <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'attendance' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>fact_check</span>
+      <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'attendance' or request.resolver_match.url_name == 'take_attendance' or request.resolver_match.url_name == 'attendance_summary' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>fact_check</span>
       <span class="text-label-md font-label-md">Attendance</span>
     </a>
 
     <!-- Events -->
-    <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'events' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
+    <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'events' or request.resolver_match.url_name == 'addevent' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
        href="{% url 'events' %}">
-      <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'events' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>event</span>
+      <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'events' or request.resolver_match.url_name == 'addevent' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>event</span>
       <span class="text-label-md font-label-md">Events</span>
     </a>
 
@@ -43,9 +43,9 @@
     </a>
 
     <!-- Giving -->
-    <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'money' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
+    <a class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all {% if request.resolver_match.url_name == 'money' or request.resolver_match.url_name == 'addmoney' %}text-primary font-bold bg-primary/5 border-r-4 border-primary{% else %}text-on-surface-variant hover:text-on-surface hover:bg-secondary-fixed/30{% endif %}" 
        href="{% url 'money' %}">
-      <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'money' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>payments</span>
+      <span class="material-symbols-outlined" {% if request.resolver_match.url_name == 'money' or request.resolver_match.url_name == 'addmoney' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>payments</span>
       <span class="text-label-md font-label-md">Giving</span>
     </a>
 

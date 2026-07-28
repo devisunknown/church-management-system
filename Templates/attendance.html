@@ -77,6 +77,31 @@
   </style>
   </head>
 <body class="bg-background text-on-surface">
+{% if messages %}
+<div class="fixed top-6 right-6 z-50 flex flex-col gap-3 w-full max-w-sm" id="django-messages">
+  {% for message in messages %}
+  <div class="message-bubble flex items-start gap-3 px-4 py-3 rounded-xl shadow-lg border
+      {% if message.tags == 'success' %} bg-primary text-on-primary border-primary/20
+      {% elif message.tags == 'error' %} bg-error-container text-on-error-container border-error/20
+      {% elif message.tags == 'warning' %} bg-tertiary-container text-on-tertiary-container border-tertiary/20
+      {% else %} bg-surface-container-high text-on-surface border-outline-variant
+      {% endif %}"
+      role="alert">
+    <span class="material-symbols-outlined text-xl shrink-0 mt-0.5">
+      {% if message.tags == 'success' %}check_circle
+      {% elif message.tags == 'error' %}error
+      {% elif message.tags == 'warning' %}warning
+      {% else %}info
+      {% endif %}
+    </span>
+    <p class="font-body-md text-body-md leading-snug flex-1">{{ message }}</p>
+    <button type="button" onclick="this.closest('.message-bubble').remove()" class="shrink-0 opacity-70 hover:opacity-100 transition-opacity">
+      <span class="material-symbols-outlined text-lg">close</span>
+    </button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
 <!-- Desktop Navigation Drawer -->
 {% include 'partials/sidebar.html' %}
 <!-- Main Content Area -->

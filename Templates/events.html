@@ -35,42 +35,42 @@
               "on-secondary-fixed": "#1b1c19",
               "on-surface": "#121c28",
               error: "#ba1a1a",
-              "surface-container-low": "$eef4ff",
-              background: "$f8f9ff",
-              outline: "$707977",
-              "on-secondary-fixed-variant": "$464744",
+              "surface-container-low": "#eef4ff",
+              background: "#f8f9ff",
+              outline: "#707977",
+              "on-secondary-fixed-variant": "#464744",
               "inverse-on-surface": "#eaf1ff",
               "error-container": "#ffdad6",
-              surface: "$f8f9ff",
-              "on-tertiary-container": "$ff9c42",
-              "on-primary-fixed": "$00201e",
-              "tertiary-fixed": "$ffdcc3",
-              tertiary: "$4c2600",
-              "on-primary-container": "$87beb8",
-              secondary: "$5e5f5b",
-              "on-tertiary": "$ffffff",
-              "on-tertiary-fixed": "$2f1500",
-              "on-primary-fixed-variant": "$144f4b",
-              "primary-fixed": "$b5ede7",
-              "surface-container-highest": "$d9e3f4",
-              "surface-container": "$e5eeff",
-              "tertiary-container": "$6d3800",
-              "on-primary": "$ffffff",
-              "on-surface-variant": "$404847",
-              "inverse-surface": "$27313e",
-              "on-error": "$ffffff",
-              "secondary-fixed-dim": "$c7c7c2",
-              "surface-container-high": "$dfe9fa",
-              "on-error-container": "$93000a",
-              "surface-variant": "$d9e3f4",
-              "surface-tint": "$316763",
-              "inverse-primary": "$9ad1cb",
-              "primary-fixed-dim": "$9ad1cb",
-              "on-secondary": "$ffffff",
-              primary: "$003633",
-              "secondary-fixed": "$e3e3de",
-              "on-background": "$121c28",
-              "surface-container-lowest": "$ffffff",
+              surface: "#f8f9ff",
+              "on-tertiary-container": "#ff9c42",
+              "on-primary-fixed": "#00201e",
+              "tertiary-fixed": "#ffdcc3",
+              tertiary: "#4c2600",
+              "on-primary-container": "#87beb8",
+              secondary: "#5e5f5b",
+              "on-tertiary": "#ffffff",
+              "on-tertiary-fixed": "#2f1500",
+              "on-primary-fixed-variant": "#144f4b",
+              "primary-fixed": "#b5ede7",
+              "surface-container-highest": "#d9e3f4",
+              "surface-container": "#e5eeff",
+              "tertiary-container": "#6d3800",
+              "on-primary": "#ffffff",
+              "on-surface-variant": "#404847",
+              "inverse-surface": "#27313e",
+              "on-error": "#ffffff",
+              "secondary-fixed-dim": "#c7c7c2",
+              "surface-container-high": "#dfe9fa",
+              "on-error-container": "#93000a",
+              "surface-variant": "#d9e3f4",
+              "surface-tint": "#316763",
+              "inverse-primary": "#9ad1cb",
+              "primary-fixed-dim": "#9ad1cb",
+              "on-secondary": "#ffffff",
+              primary: "#003633",
+              "secondary-fixed": "#e3e3de",
+              "on-background": "#121c28",
+              "surface-container-lowest": "#ffffff",
             },
             borderRadius: {
               DEFAULT: "0.25rem",
@@ -169,6 +169,31 @@
     </style>
   </head>
   <body class="flex min-h-screen">
+    {% if messages %}
+    <div class="fixed top-6 right-6 z-50 flex flex-col gap-3 w-full max-w-sm" id="django-messages">
+      {% for message in messages %}
+      <div class="message-bubble flex items-start gap-3 px-4 py-3 rounded-xl shadow-lg border
+          {% if message.tags == 'success' %} bg-primary text-on-primary border-primary/20
+          {% elif message.tags == 'error' %} bg-error-container text-on-error-container border-error/20
+          {% elif message.tags == 'warning' %} bg-tertiary-container text-on-tertiary-container border-tertiary/20
+          {% else %} bg-surface-container-high text-on-surface border-outline-variant
+          {% endif %}"
+          role="alert">
+        <span class="material-symbols-outlined text-xl shrink-0 mt-0.5">
+          {% if message.tags == 'success' %}check_circle
+          {% elif message.tags == 'error' %}error
+          {% elif message.tags == 'warning' %}warning
+          {% else %}info
+          {% endif %}
+        </span>
+        <p class="font-body-md text-body-md leading-snug flex-1">{{ message }}</p>
+        <button type="button" onclick="this.closest('.message-bubble').remove()" class="shrink-0 opacity-70 hover:opacity-100 transition-opacity">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
     <!-- NavigationDrawer (Web Shell) -->
     <!-- Desktop Sidebar (NavigationDrawer) -->
 {% include 'partials/sidebar.html' %}
@@ -258,10 +283,12 @@
             {% for event in events %}
             <!-- Event Row -->
             <div
-              class="event-row grid grid-cols-1 md:grid-cols-12 items-center px-4 md:px-6 py-4 bg-white rounded-2xl border border-outline-variant/10 cursor-pointer transition-all card-shadow"
-              onclick="openEventDetails('{{ event.tittle }}')"
+              class="event-row grid grid-cols-1 md:grid-cols-12 items-center px-4 md:px-6 py-4 bg-white rounded-2xl border border-outline-variant/10 transition-all card-shadow{% if event.is_past %} opacity-70{% endif %}"
             >
-              <div class="col-span-5 flex items-center gap-4">
+              <div
+                class="col-span-5 flex items-center gap-4 cursor-pointer"
+                onclick="openEventDetails('{{ event.tittle }}')"
+              >
                 <div
                   class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold"
                 >
@@ -273,24 +300,35 @@
                   </h3>
                   <p class="text-label-md text-on-surface-variant">
                     {{ event.date|date:"M d, Y" }} at {{ event.starttime }} - {{ event.endtime }}
+                    {% if event.is_past %}<span class="ml-2 text-[10px] uppercase tracking-wide font-bold text-error bg-error/10 px-2 py-0.5 rounded-full">Past</span>{% endif %}
                   </p>
                 </div>
               </div>
-              <div class="col-span-3 flex justify-center py-2 md:py-0">
+              <div class="col-span-3 flex justify-center py-2 md:py-0 cursor-pointer" onclick="openEventDetails('{{ event.tittle }}')">
                 <span
                   class="px-3 py-1 bg-primary-container/10 text-primary font-bold rounded-full text-[11px] uppercase tracking-wider"
                 >
                   {{ event.category }}
                 </span>
               </div>
-              <div class="col-span-3 text-body-md text-on-surface-variant">
+              <div class="col-span-3 text-body-md text-on-surface-variant cursor-pointer" onclick="openEventDetails('{{ event.tittle }}')">
                 <p class="flex items-center gap-2">
                   <span class="material-symbols-outlined text-sm">location_on</span>
                   {{ event.location }}
                 </p>
               </div>
               <div class="col-span-1 flex justify-end">
-                <span class="material-symbols-outlined text-outline">chevron_right</span>
+                {% if event.is_past %}
+                <a href="{% url 'attendance_summary' event_id=event.id %}" class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant text-label-md font-bold hover:bg-surface-container transition-all whitespace-nowrap">
+                  <span class="material-symbols-outlined text-sm">visibility</span>
+                  Summary
+                </a>
+                {% else %}
+                <a href="{% url 'take_attendance' event_id=event.id %}" class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary text-on-primary text-label-md font-bold hover:bg-primary/90 transition-all whitespace-nowrap">
+                  <span class="material-symbols-outlined text-sm">fact_check</span>
+                  Take Attendance
+                </a>
+                {% endif %}
               </div>
             </div>
             {% empty %}
