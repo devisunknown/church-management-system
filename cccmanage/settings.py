@@ -47,7 +47,7 @@ LOGGING = {
 SECRET_KEY = 'django-insecure-^lo*2&_lv24$c@iqu1=%^9$qp!1s0ys+pg+7_&tk)&w^l$v0#r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 
