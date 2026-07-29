@@ -11,6 +11,7 @@ from django.db.models import Q, Sum
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.utils.dateparse import parse_date, parse_time
 from ratelimit import RateLimitDecorator
 
 login_rate_limit = RateLimitDecorator(calls=5, period=60)
@@ -341,12 +342,25 @@ def addevent(request):
                 'error': 'Title and description are required.',
             })
 
+        event_date = parse_date(request.POST.get('event_date') or '')
+        start_time_val = parse_time(request.POST.get('start_time') or '')
+        end_time_val = parse_time(request.POST.get('end_time') or '')
+
+        if not event_date:
+            return render(request, 'add event.html', {
+                'error': 'Please provide a valid event date.',
+            })
+
+        combined_datetime = datetime.combine(event_date, start_time_val or datetime.min.time())
+        if timezone.is_naive(combined_datetime):
+            combined_datetime = timezone.make_aware(combined_datetime)
+
         new_event = event.objects.create(
             tittle=title,
             description=description,
-            date=request.POST.get('event_date'),
-            starttime=request.POST.get('start_time'),
-            endtime=request.POST.get('end_time'),
+            date=combined_datetime,
+            starttime=start_time_val,
+            endtime=end_time_val,
             location=request.POST.get('venue') or request.POST.get('street_address', ''),
             category=request.POST.get('category'),
         )
