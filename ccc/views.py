@@ -43,14 +43,17 @@ def dashboard(request):
     recent_giving = latest_giving.amount if latest_giving else None
 
     now = timezone.now()
-    upcoming_events = event.objects.filter(
+    upcoming_events_qs = event.objects.filter(
         date__gte=now,
         date__lte=now + timedelta(days=7),
-    ).order_by('date')[:5]
+    ).order_by('date')
+    upcoming_events_count = upcoming_events_qs.count()
+    upcoming_events = upcoming_events_qs[:5]
 
     context = {
         'total_members': Member.objects.count(),
         'total_events': event.objects.count(),
+        'upcoming_events_count': upcoming_events_count,
         'activeevents': upcoming_events,
         'recent_activity': ActivityLog.objects.all()[:6],
         'weekly_attendance': weekly_attendance,
