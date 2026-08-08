@@ -171,7 +171,7 @@
 </div>
 <div>
 <label class="block text-label-md font-label-md text-on-surface-variant mb-2" for="description">Description</label>
-<textarea class="w-full bg-white border border-outline-variant rounded-lg p-3 text-body-md focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all resize-none" id="description" name="description" placeholder="Describe the purpose, vision, and key activities of this event..." rows="4"></textarea>
+<textarea class="w-full bg-white border border-outline-variant rounded-lg p-3 text-body-md focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all resize-none" id="description" name="description" placeholder="Describe the purpose, vision, and key activities of this event..." required rows="4"></textarea>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 <div>
@@ -334,7 +334,7 @@
             document.getElementById('add-category-btn').addEventListener('click', () => {
                 const label = prompt('New category name:');
                 if (!label) return;
-                const value = label.trim().toLowerCase().replace(/\s+/g, '_');
+                const value = label.trim().toLowerCase().replace(/\s+/g, '_').slice(0, 30);
 
                 const btn = document.createElement('button');
                 btn.type = 'button';

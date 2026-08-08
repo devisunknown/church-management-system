@@ -334,6 +334,16 @@ def events_view(request):
     return render(request, 'events.html', {'events': all_events})
 
 
+VENUE_LABELS = {
+    'main_sanctuary': 'Main Sanctuary',
+    'community_hall': 'Community Hall',
+    'youth_loft': 'Youth Loft',
+    'room_302': 'Room 302',
+    'outdoor_plaza': 'Outdoor Plaza',
+    'offsite': 'Off-site',
+}
+
+
 @login_required
 def addevent(request):
     if request.method == 'POST':
@@ -358,14 +368,23 @@ def addevent(request):
         if timezone.is_naive(combined_datetime):
             combined_datetime = timezone.make_aware(combined_datetime)
 
+        venue_slug = request.POST.get('venue', 'main_sanctuary')
+        venue_label = VENUE_LABELS.get(venue_slug, venue_slug.replace('_', ' ').title())
+        street_address = (request.POST.get('street_address') or '').strip()
+        location = f"{venue_label}, {street_address}" if street_address else venue_label
+
+        # Defensive cap matching the model field, in case a custom category
+        # from the "+ New" button (or a future client) sends something longer.
+        category = (request.POST.get('category') or 'general').strip()[:30]
+
         new_event = event.objects.create(
             tittle=title,
             description=description,
             date=combined_datetime,
             starttime=start_time_val,
             endtime=end_time_val,
-            location=request.POST.get('venue') or request.POST.get('street_address', ''),
-            category=request.POST.get('category'),
+            location=location[:60],
+            category=category,
         )
 
         _log_activity(

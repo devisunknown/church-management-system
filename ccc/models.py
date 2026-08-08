@@ -76,7 +76,7 @@ class event(models.Model):
     starttime=models.TimeField(null=True)
     endtime=models.TimeField(null=True)
     location=models.CharField(max_length=60)
-    category=models.CharField(max_length=10)
+    category=models.CharField(max_length=30)
 
     @property
     def title(self):
